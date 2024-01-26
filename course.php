@@ -17,7 +17,7 @@ require_once("../baseball/db_connect.php");
 
 <body>
     <div class="container">
-        <h1>課程列表</h1>
+        
         <div>
 
         </div>

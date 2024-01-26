@@ -1,6 +1,10 @@
 <?php
 require_once("../baseball/db_connect.php");
 
+$sqlAll="SELECT * FROM teacher WHERE valid=1";
+$resultAll=$conn->query($sqlAll);
+$teacherTotalCount=$resultAll->num_rows;
+?>
 ?>
 
 <!doctype html>
@@ -17,8 +21,22 @@ require_once("../baseball/db_connect.php");
 <body>
     <div class="container">
         <h1>教練列表</h1>
-        <div>
-            
+        <table class="table table-border">
+            <thead>
+                <tr>
+                    <th>照片</th>
+                    <th>名稱</th>
+                    <th>介紹</th>
+                </tr>
+            </thead>
+        </table>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
         </div>
     </div>
 

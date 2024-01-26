@@ -16,7 +16,6 @@ require_once("../baseball/db_connect.php");
 
 <body>
     <div class="container">
-        <h1>教練列表</h1>
         <div>
             
         </div>
