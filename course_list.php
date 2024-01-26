@@ -4,6 +4,9 @@ require_once("../baseball/db_connect.php");
 $sqlAll="SELECT * FROM course WHERE valid=1";
 $resultAll=$conn->query($sqlAll);
 $courseTotalCount=$resultAll->num_rows;
+
+$sql="SELECT * FROM course WHERE valid=1";
+$result=$conn->query($sql);
 ?>
 
 <!doctype html>
@@ -24,6 +27,7 @@ $courseTotalCount=$resultAll->num_rows;
         <table class="table table-border">
             <thead>
                 <tr>
+                    <th></th>
                     <th>照片</th>
                     <th>名稱</th>
                     <th>種類</th>
@@ -34,15 +38,22 @@ $courseTotalCount=$resultAll->num_rows;
                 </tr>
             </thead>
             <tbody>
+            <?php
+                    $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+                    foreach ($rows as $course) :
+                    ?>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <td><a class="btn btn-primary" href="course.php" role="button"><i class="fa-regular fa-eye"></i></a></td>
+                    <td><?=$course["photo"]?></td>
+                    <td><?=$course["name"]?></td>
+                    <td><?=$course["type"]?></td>
+                    <td><?=$course["description"]?></td>
+                    <td><?=$course["price"]?></td>
+                    <td><?=$course["teacher_id"]?></td>
+                    <td><?=$course["course_start"]?></td>
                 </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
             
