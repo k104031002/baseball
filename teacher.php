@@ -1,3 +1,8 @@
+<?php
+require_once("../baseball/db_connect.php");
+
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -8,7 +13,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <?php include("../baseball/ws_css.php") ?>
+        <?php include("../baseball/assets/css/ws_css.php") ?>
     </head>
 
     <body>
