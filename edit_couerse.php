@@ -18,7 +18,7 @@ require_once("../baseball/db_connect.php");
     </head>
 
     <body>
-
+    <div class="container"></div>
 
     <?php include("../baseball/ws_js.php") ?>
     </body>
