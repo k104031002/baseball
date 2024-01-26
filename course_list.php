@@ -35,6 +35,7 @@ $result=$conn->query($sql);
                     <th>價格</th>
                     <th>配合教練</th>
                     <th>開課時間</th>
+                    <th>結束時間</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,6 +53,7 @@ $result=$conn->query($sql);
                     <td><?=$course["price"]?></td>
                     <td><?=$course["teacher_id"]?></td>
                     <td><?=$course["course_start"]?></td>
+                    <td><?=$course["course_end"]?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
