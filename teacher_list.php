@@ -41,11 +41,10 @@ $result = $conn->query($sql);
                 foreach ($rows as $teacher) :
                 ?>
             <tr>
-                
-                    <td><?= $teacher["photo"] ?></td>
+                    <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/teacher_img/<?=$teacher["photo"]?>" alt="<?= $teacher["name"] ?>"></td>
                     <td><?= $teacher["name"] ?></td>
                     <td><?= $teacher["description"] ?></td>
-                    <td><a class="btn btn-primary" href="teacher.php" role="button"><i class="fa-regular fa-eye"></i></a></td>
+                    <td><a class="btn btn-primary" href="teacher.php?id=<?=$teacher["id"]?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
                 
             </tr>
             <?php endforeach; ?>

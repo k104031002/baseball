@@ -45,8 +45,8 @@ $result=$conn->query($sql);
                     foreach ($rows as $course) :
                     ?>
                 <tr>
-                <td><a class="btn btn-primary" href="course.php" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                    <td><?=$course["photo"]?></td>
+                <td><a class="btn btn-primary" href="course.php?id=<?=$course["id"]?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
+                    <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/course_img/<?=$course["photo"]?>" alt="<?=$course["name"]?>"></td>
                     <td><?=$course["name"]?></td>
                     <td><?=$course["type"]?></td>
                     <td><?=$course["description"]?></td>
