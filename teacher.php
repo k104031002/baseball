@@ -49,10 +49,11 @@ if ($rowCount != 0) {
                     <td><div class="border"><?= $row["description"] ?></div></td>
                 </tr>
                 
-                <div class="py-2">
+                <div class="py-2 d-flex justify-content-between">
             <a class="btn btn-primary" href="teacher_list.php" role="button">
                 <i class="fa-solid fa-arrow-left"></i>返回教練列表
             </a>
+            <a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?=$row["id"]?>"><i class="fa-solid fa-pen"></i></a>
         </div>
             </div>
         </div>

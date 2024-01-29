@@ -48,7 +48,7 @@ $result = $conn->query($sql);
                         <td><?= $teacher["name"] ?></td>
                         <td><?= $teacher["description"] ?></td>
                         <td><a class="btn btn-primary" href="teacher.php?id=<?= $teacher["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?=$teacher["id"]?>"><i class="fa-solid fa-pen"></i></a></td>
                         <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                     <div class="modal fade" id="confrimModal" tabindex="-1" aria-hidden="true">

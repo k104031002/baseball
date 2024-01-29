@@ -30,7 +30,7 @@ $result = $conn->query($sql);
                 <tr>
                     <th>顯示</th>
                     <th>編輯</th>
-                    <th>刪除</th>
+                    <th>下架</th>
                     <th>照片</th>
                     <th>名稱</th>
                     <th>種類</th>
@@ -49,7 +49,7 @@ $result = $conn->query($sql);
                 ?>
                     <tr>
                         <td><a class="btn btn-primary" href="course.php?id=<?= $course["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_course.php"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_course.php?id=<?=$course["id"]?>"><i class="fa-solid fa-pen"></i></a></td>
                         <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal"><i class="fa-solid fa-trash"></i></button></td>
                         <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
                         <td><?= $course["name"] ?></td>

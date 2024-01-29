@@ -53,11 +53,19 @@ if ($rowCount != 0) {
                     </div>
                     <div class="text-danger text-end h4">$ <?= number_format($row["price"]) ?></div>
                     <div><?= $row["description"] ?></div>
-                    <div><h2>配合教練</h2><p><?=$row["teacher_id"]?></p></div>
-                    <div><h2>開課時間</h2><?=$row["course_start"]?><?=$row["course_end"]?></div>
-                    <a class="btn btn-primary" href="course_list.php" role="button">
-                        <i class="fa-solid fa-arrow-left"></i>返回課程列表
-                    </a>
+                    <div>
+                        <h2>配合教練</h2>
+                        <p><?= $row["teacher_id"] ?></p>
+                    </div>
+                    <div>
+                        <h2>開課時間</h2><?= $row["course_start"] ?><br>~<br><?= $row["course_end"] ?>
+                    </div>
+                    <div class="py-2 d-flex justify-content-between">
+                        <a class="btn btn-primary" href="course_list.php" role="button">
+                            <i class="fa-solid fa-arrow-left"></i>返回課程列表
+                        </a>
+                        <a class="btn btn-primary" name="" id="" role="button" href="edit_course.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen"></i></a>
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
