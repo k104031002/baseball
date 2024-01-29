@@ -44,7 +44,11 @@ if ($rowCount != 0) {
             </div>
             <div class="col-md-6 border">
                 <h1><?= $row["name"] ?></h1>
-                <div class="border"><?= $row["description"] ?></div>
+                <tr>
+                    <th>介紹</th>
+                    <td><div class="border"><?= $row["description"] ?></div></td>
+                </tr>
+                
                 <div class="py-2">
             <a class="btn btn-primary" href="teacher_list.php" role="button">
                 <i class="fa-solid fa-arrow-left"></i>返回教練列表
