@@ -60,6 +60,10 @@ $rowCount = $result->num_rows;
                                 <td><input type="text" class="form-control" value="<?= $row["teacher_id"] ?>" name="teacher_id"></td>
                             </tr>
                             <tr>
+                                <th>更換宣傳照</th>
+                                <td><input type="file" class="form-control" name="photo"></td>
+                            </tr>
+                            <tr>
                                 <th>時間</th>
                                 <td><input type="datetime-local" class="form-control" value="<?= $row["course_start"] ?>" name="course_start"></td>
                                 <td><input type="datetime-local" class="form-control" value="<?= $row["course_end"] ?>" name="course_end"></td>

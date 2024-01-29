@@ -52,7 +52,7 @@ if ($rowCount != 0) {
                     <div class="py-2">
                     </div>
                     <div class="text-danger text-end h4">$ <?= number_format($row["price"]) ?></div>
-                    <div><?= $row["description"] ?></div>
+                    <div><p class="course-p"><?= $row["description"] ?></p> </div>
                     <div>
                         <h2>配合教練</h2>
                         <p><?= $row["teacher_id"] ?></p>

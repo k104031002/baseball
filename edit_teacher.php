@@ -50,6 +50,10 @@ $rowCount=$result->num_rows;
                         <th>介紹</th>
                         <td><input type="text" class="form-control" value="<?= $row["description"] ?>" name="description"></td>
                     </tr>
+                    <tr>
+                        <th>更換頭像</th>
+                        <td><input type="file" class="form-control" name="photo"></td>
+                    </tr>
                 </table>
                 <div class="pb-2">
                     <button type="submit" class="btn btn-primary">

@@ -9,6 +9,11 @@
     object-fit: cover;
 }
 
+.course-p{
+    font-size: 44px;
+    border: 2px solid lightgray;
+    
 
+}
 
 </style>

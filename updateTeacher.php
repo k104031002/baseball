@@ -7,9 +7,10 @@ if(!isset($_POST["name"])){
 
 $name=$_POST["name"];
 $description=$_POST["description"];
+$photo=$_POST["photo"];
 $id=$_POST["id"];
 
-$sql="UPDATE teacher SET name='$name',description='$description' WHERE id=$id";
+$sql="UPDATE teacher SET name='$name',description='$description',photo='$photo' WHERE id=$id";
 
 if ($conn->query($sql)===TRUE){
     echo "更新成功";

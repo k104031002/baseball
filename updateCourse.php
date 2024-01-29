@@ -12,9 +12,10 @@ $teacher=$_POST["teacher_id"];
 $description=$_POST["description"];
 $course_start=$_POST["course_start"];
 $course_end=$_POST["course_end"];
+$photo=$_POST["photo"];
 $id=$_POST["id"];
 
-$sql="UPDATE course SET name='$name',type='$type',price='$price',teacher_id='$teacher',description='$description',course_start='$course_start',course_end='$course_end' WHERE id=$id";
+$sql="UPDATE course SET name='$name',type='$type',price='$price',teacher_id='$teacher',description='$description',course_start='$course_start',course_end='$course_end',photo='$photo' WHERE id=$id";
 
 if ($conn->query($sql)===TRUE){
     echo "更新成功";
