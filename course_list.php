@@ -25,6 +25,9 @@ $result = $conn->query($sql);
 
     <div class="container">
         <h1>課程列表</h1>
+        <div class="text-end">
+            <a class="btn btn-primary" href="addCourse.php"><i class="fa-solid fa-calendar-plus"></i></a>
+        </div>
         <table class="table table-border">
             <thead>
                 <tr>

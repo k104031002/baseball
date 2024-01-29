@@ -20,7 +20,7 @@ $rowCount=$result->num_rows;
 <html lang="en">
 
 <head>
-    <title>教練資料編輯Coach_Edit</title>
+    <title>教練資料編輯Coach Edit</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
