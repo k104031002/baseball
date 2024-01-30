@@ -132,7 +132,7 @@ if (isset($_GET["search"])) {
                         <td><?= $course["type"] ?></td>
                         <td><?= $course["description"] ?></td>
                         <td><?= $course["price"] ?></td>
-                        <td><?= $course["teacher_id"] ?></td>
+                        <td class="text-info"><?= $course["teacher_id"] ?></td>
                         <td><?= $course["course_start"] ?></td>
                         <td><?= $course["course_end"] ?></td>
                     </tr>

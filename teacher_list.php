@@ -120,7 +120,7 @@ if (isset($_GET["search"])) {
                 ?>
                     <tr>
                         <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/teacher_img/<?= $teacher["photo"] ?>" alt="<?= $teacher["name"] ?>"></td>
-                        <td><?= $teacher["name"] ?></td>
+                        <td><h3><?= $teacher["name"] ?></h3></td>
                         <td><?= $teacher["description"] ?></td>
                         <td><a class="btn btn-primary" href="teacher.php?id=<?= $teacher["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
                         <td><a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?= $teacher["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
