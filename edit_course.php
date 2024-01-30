@@ -40,7 +40,7 @@ $rowCount = $result->num_rows;
                     <img class="img-fluid" src="../baseball/assets/img/course_img/<?= $row["photo"] ?>" alt="<?= $row["name"] ?>">
                 </div>
                 <div class="col-md-6">
-                    <form action="updateCourse.php" method="post">
+                    <form action="updateCourse.php" method="post" enctype="multipart/form-data" >
                     <input type="hidden" name="id" value="<?=$row["id"]?>">
                         <table class="table table-bordered">
                             <tr>

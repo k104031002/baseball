@@ -32,7 +32,7 @@ if (isset($_GET["search"])) {
     $sql = "SELECT * FROM course WHERE valid=1  $orderString LIMIT $perPage";
 }
 
-// $sql = "SELECT * FROM course WHERE valid=1";
+// $sql = "SELECT course.*, FROM (course JOIN teacher ON teacher_id=id) WHERE valid=1";
 $result = $conn->query($sql);
 
 
@@ -73,7 +73,7 @@ if (isset($_GET["search"])) {
                 <div class="col">
                     <form action="">
                         <div class="input-group mb-3">
-                            <input type="search" class="form-control" placeholder="" aria-label="Recipient's coursename" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
+                            <input type="search" class="form-control" placeholder="課程名稱" aria-label="Recipient's coursename" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
                                                                                                                                                                                 $searchValue = $_GET["search"];
                                                                                                                                                                             ?> value="<?= $searchValue ?>" <?php endif ?>> <!--php 這串為持續顯示自己搜尋的字串 -->
                             <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>

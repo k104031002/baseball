@@ -72,7 +72,7 @@ if (isset($_GET["search"])) {
                 <div class="col">
                     <form action="">
                         <div class="input-group mb-3">
-                            <input type="search" class="form-control" placeholder="" aria-label="Recipient's teachername" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
+                            <input type="search" class="form-control" placeholder="姓名" aria-label="Recipient's teachername" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
                                                                                                                                                                                 $searchValue = $_GET["search"];
                                                                                                                                                                             ?> value="<?= $searchValue ?>" <?php endif ?>> <!--php 這串為持續顯示自己搜尋的字串 -->
                             <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
