@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <?php include("../baseball/assets/css/ws_css.php") ?>
+    <?php include("../assets/css/ws_css.php") ?>
 </head>
 
 <body>
@@ -46,7 +46,7 @@
 
 
     </div>
-    <?php include("../baseball/assets/js/ws_js.php") ?>
+    <?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>

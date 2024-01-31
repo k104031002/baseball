@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <?php include("../baseball/assets/css/ws_css.php") ?>
+    <?php include("../assets/css/ws_css.php") ?>
 </head>
 
 <body>
@@ -25,7 +25,16 @@
                     <label for="">課程名稱</label>
                     <input type="text" class="form-control" name="name">
                     <label for="">類型</label>
-                    <input type="text" class="form-control" name="type">
+                    <div class="col-lg-4" >
+                    <select class="form-select" name="type" id="">
+                        <option value="">請選擇類型</option>
+                        <option value="打擊">打擊</option>
+                        <option value="投球">投球</option>
+                        <option value="守備">守備</option>
+                        <option value="體能">體能</option>
+                        <option value="知識">知識</option>
+                    </select>
+                    </div>
                     <label for="">價格</label>
                     <input type="text" class="form-control" name="price">
                     <label for="">配合教練</label>
@@ -54,7 +63,7 @@
 
 
 
-    <?php include("../baseball/assets/js/ws_js.php") ?>
+    <?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>

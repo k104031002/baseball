@@ -1,5 +1,5 @@
 <?php
-require_once("../baseball/db_connect.php");
+require_once("./db_connect.php");
 
 $perPage = 5;
 $sqlAll = "SELECT * FROM teacher WHERE valid=1";
@@ -53,7 +53,7 @@ if (isset($_GET["search"])) {
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <?php include("../baseball/assets/css/ws_css.php") ?>
+    <?php include("../assets/css/ws_css.php") ?>
 </head>
 
 <body>
@@ -103,6 +103,7 @@ if (isset($_GET["search"])) {
         <table class="table table-border">
             <thead>
                 <tr>
+                    <th>編號</th>
                     <th>照片</th>
                     <th>名稱</th>
                     <th>介紹</th>
@@ -119,14 +120,16 @@ if (isset($_GET["search"])) {
                 foreach ($rows as $teacher) :
                 ?>
                     <tr>
-                        <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/teacher_img/<?= $teacher["photo"] ?>" alt="<?= $teacher["name"] ?>"></td>
+                        <td><?=$teacher["id"]?></td>
+                        <td class="col-lg-3"><img class="object-fit-cover" src="../assets/img/teacher_img/<?= $teacher["photo"] ?>" alt="<?= $teacher["name"] ?>"></td>
                         <td><h3><?= $teacher["name"] ?></h3></td>
                         <td><?= $teacher["description"] ?></td>
                         <td><a class="btn btn-primary" href="teacher.php?id=<?= $teacher["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
                         <td><a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?= $teacher["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal"><i class="fa-solid fa-trash"></i></button></td>
+                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?=$teacher["id"]?>"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
-                    <div class="modal fade" id="confrimModal" tabindex="-1" aria-hidden="true">
+                    <!-- 彈窗 -->
+                    <div class="modal fade" id="confrimModal<?=$teacher["id"]?>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -138,11 +141,12 @@ if (isset($_GET["search"])) {
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <a role="button" class="btn btn-danger" href="doDeleteTeacher.php?id=<?= $teacher['id'] ?>">確潤</a>
+                                    <a role="button" class="btn btn-danger" href="doDeleteTeacher.php?id=<?= $teacher["id"] ?>">確潤</a>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- 彈窗結束 -->
                 <?php endforeach; ?>
 
             </tbody>
@@ -160,12 +164,13 @@ if (isset($_GET["search"])) {
             </nav>
             <?php endif; ?>
     </div>
+ 
     <?php else : ?>
             沒有使用者
         <?php endif; ?>
     </div>
 
-    <?php include("../baseball/assets/js/ws_js.php") ?>
+    <?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>

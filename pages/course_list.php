@@ -1,5 +1,5 @@
 <?php
-require_once("../baseball/db_connect.php");
+require_once("./db_connect.php");
 
 $perPage = 6;
 $sqlAll = "SELECT * FROM course WHERE valid=1";
@@ -54,7 +54,7 @@ if (isset($_GET["search"])) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <?php include("../baseball/assets/css/ws_css.php") ?>
+    <?php include("../assets/css/ws_css.php") ?>
 </head>
 
 <body>
@@ -107,6 +107,7 @@ if (isset($_GET["search"])) {
                     <th>顯示</th>
                     <th>編輯</th>
                     <th>下架</th>
+                    <th>編號</th>
                     <th>照片</th>
                     <th>名稱</th>
                     <th>種類</th>
@@ -126,8 +127,9 @@ if (isset($_GET["search"])) {
                     <tr>
                         <td><a class="btn btn-primary" href="course.php?id=<?= $course["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
                         <td><a class="btn btn-primary" name="" id="" role="button" href="edit_course.php?id=<?= $course["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal"><i class="fa-solid fa-trash"></i></button></td>
-                        <td class="col-lg-3"><img class="object-fit-cover" src="../baseball/assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
+                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?=$course["id"]?>"><i class="fa-solid fa-trash"></i></button></td>
+                        <td><?=$course["id"]?></td>
+                        <td class="col-lg-3"><img class="object-fit-cover" src="../assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
                         <td><?= $course["name"] ?></td>
                         <td><?= $course["type"] ?></td>
                         <td><?= $course["description"] ?></td>
@@ -136,7 +138,8 @@ if (isset($_GET["search"])) {
                         <td><?= $course["course_start"] ?></td>
                         <td><?= $course["course_end"] ?></td>
                     </tr>
-                    <div class="modal fade" id="confrimModal" tabindex="-1" aria-hidden="true">
+                    <!-- 彈窗 -->
+                    <div class="modal fade" id="confrimModal<?=$course["id"]?>" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -153,6 +156,7 @@ if (isset($_GET["search"])) {
                             </div>
                         </div>
                     </div>
+                    <!-- 彈窗結束 -->
                 <?php endforeach; ?>
             </tbody>
         </table>
@@ -175,7 +179,7 @@ if (isset($_GET["search"])) {
         <?php endif; ?>
     </div>
 
-    <?php include("../baseball/assets/js/ws_js.php") ?>
+    <?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>

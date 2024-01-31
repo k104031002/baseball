@@ -1,5 +1,5 @@
 <?php
-require_once("../baseball/db_connect.php");
+require_once("./db_connect.php");
 
 if (!isset($_POST["name"])) {
     die("請循正常管道進入");
@@ -24,7 +24,7 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
     // 將文件從暫存位置移動到目標資料夾
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "./assets/img/course_img/" . $filename)) {
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../assets/img/course_img/" . $filename)) {
 
         echo "上傳成功";
     } else {

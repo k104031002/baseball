@@ -1,9 +1,9 @@
 <?php
-require_once("../baseball/db_connect.php");
+require_once("./db_connect.php");
 
 $id=$_GET["id"];
 
-$sql="UPDATE teacher SET valid='0' WHERE id=$id";
+$sql="UPDATE course SET valid='0' WHERE id=$id";
 
 // echo $sql;
 
@@ -15,4 +15,4 @@ if($conn->query($sql)=== TRUE){
 
 $conn->close();
 
-header("location: teacher_list.php");
+header("location: course_list.php");

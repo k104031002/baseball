@@ -7,7 +7,7 @@ if (!isset($_GET["id"])) {
 
 $id = $_GET["id"];
 
-require_once("../baseball/db_connect.php");
+require_once("./db_connect.php");
 
 $sql = "SELECT * FROM course WHERE id=$id AND valid=1";
 $result = $conn->query($sql);
@@ -31,7 +31,7 @@ if ($rowCount != 0) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <?php include("../baseball/assets/css/ws_css.php") ?>
+    <?php include("../assets/css/ws_css.php") ?>
 </head>
 
 <body>
@@ -42,7 +42,7 @@ if ($rowCount != 0) {
         ?>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <img class="img-fluid" src="../baseball/assets/img/course_img/<?= $row["photo"] ?>" alt="<?= $row["name"] ?>">
+                    <img class="img-fluid" src="../assets/img/course_img/<?= $row["photo"] ?>" alt="<?= $row["name"] ?>">
                 </div>
                 <div class="col-md-6">
                     <div class="mb-2">
@@ -65,13 +65,33 @@ if ($rowCount != 0) {
                             <i class="fa-solid fa-arrow-left"></i>返回課程列表
                         </a>
                         <a class="btn btn-primary" name="" id="" role="button" href="edit_course.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen"></i></a>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal" type="button"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>
             </div>
+            <!-- 彈窗 -->
+            <div class="modal fade" id="confrimModal" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">刪除教練</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    確認刪除?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                                    <a role="button" class="btn btn-danger" href="doDeleteCourse.php?id=<?= $row['id'] ?>">確潤</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 彈窗結束 -->
         <?php endif; ?>
     </div>
 
-    <?php include("../baseball/assets/js/ws_js.php") ?>
+    <?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>
