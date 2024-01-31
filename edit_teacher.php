@@ -51,8 +51,12 @@ $rowCount=$result->num_rows;
                         <td><input type="text" class="form-control" value="<?= $row["description"] ?>" name="description"></td>
                     </tr>
                     <tr>
+                        <th>預覽頭像</th>
+                        <td><img class="img-fluid" id="preview_photo_img" src="#" alt=""></td>
+                    </tr>
+                    <tr>
                         <th>更換頭像</th>
-                        <td><input type="file" class="form-control" name="photo"></td>
+                        <td><input type="file" class="form-control" name="photo" onchange="readURL(this)" targetID="preview_photo_img"></td>
                     </tr>
                 </table>
                 <div class="pb-2">
@@ -71,7 +75,7 @@ $rowCount=$result->num_rows;
         </div>
         <?php endif; ?>
     </div>
-    
+
     <?php include("../baseball/assets/js/ws_js.php") ?>
 </body>
 

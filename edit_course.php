@@ -40,8 +40,8 @@ $rowCount = $result->num_rows;
                     <img class="img-fluid" src="../baseball/assets/img/course_img/<?= $row["photo"] ?>" alt="<?= $row["name"] ?>">
                 </div>
                 <div class="col-md-6">
-                    <form action="updateCourse.php" method="post" enctype="multipart/form-data" >
-                    <input type="hidden" name="id" value="<?=$row["id"]?>">
+                    <form action="updateCourse.php" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id" value="<?= $row["id"] ?>">
                         <table class="table table-bordered">
                             <tr>
                                 <th>課程名稱</th>
@@ -60,8 +60,12 @@ $rowCount = $result->num_rows;
                                 <td><input type="text" class="form-control" value="<?= $row["teacher_id"] ?>" name="teacher_id"></td>
                             </tr>
                             <tr>
+                                <th>預覽宣傳照</th>
+                                <td><img class="img-fluid" id="preview_photo_img" src="#" alt=""></td>
+                            </tr>
+                            <tr>
                                 <th>更換宣傳照</th>
-                                <td><input type="file" class="form-control" name="photo"></td>
+                                <td><input type="file" class="form-control" name="photo" onchange="readURL(this)" targetID="preview_photo_img"></td>
                             </tr>
                             <tr>
                                 <th>時間</th>
@@ -70,17 +74,17 @@ $rowCount = $result->num_rows;
                             </tr>
                             <tr>
                                 <th>介紹</th>
-                                <td><textarea type="text" class="form-control"  name="description" id="" cols="30" rows="10"><?= $row["description"] ?></textarea></td>
-                                
+                                <td><textarea type="text" class="form-control" name="description" id="" cols="30" rows="10"><?= $row["description"] ?></textarea></td>
+
                             </tr>
                         </table>
                         <div class="pb-2">
-                        <button type="submit" class="btn btn-primary">
-                            儲存
-                        </button>
-                    </div>
+                            <button type="submit" class="btn btn-primary">
+                                儲存
+                            </button>
+                        </div>
                     </form>
-                  
+
                     <a class="btn btn-primary" href="course_list.php" role="button">
                         <i class="fa-solid fa-arrow-left"></i>返回課程列表
                     </a>
