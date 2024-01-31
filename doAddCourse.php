@@ -14,7 +14,7 @@ $teacher=$_POST["teacher_id"];
 $course_start=$_POST["course_start"];
 $course_end=$_POST["course_end"];
 $description=$_POST["description"];
-$photo=$_POST["photo"];
+// $photo=$_POST["photo"];
 
 if(empty($name) || empty($price) ){
     echo "請填入必要欄位";
@@ -23,7 +23,25 @@ if(empty($name) || empty($price) ){
 
 $now=date('Y-m-d H:i:s');
 
-$sql="INSERT INTO course (name, type, price, teacher_id, course_start, course_end,description, photo,created_at, valid)VALUES('$name','$type','$price', '$teacher','$course_start','$course_end','$description','$photo','$now', 1)";
+if ($_FILES["photo"]["error"] == 0) {
+    $filename = time();
+    $fileExt = pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION);
+    $filename = $filename.".".$fileExt;
+    // echo $filename;
+    // exit;
+
+
+    // 將文件從暫存位置移動到目標資料夾
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../baseball/assets/img/course_img/" . $filename)) {
+
+        echo "上傳成功";
+    } else {
+        echo "上傳失敗";
+    }
+}
+
+
+$sql="INSERT INTO course (name, type, price, teacher_id, course_start, course_end,description, photo,created_at, valid)VALUES('$name','$type','$price', '$teacher','$course_start','$course_end','$description','$filename','$now', 1)";
 
 // echo $sql;
 // exit;

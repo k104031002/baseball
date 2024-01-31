@@ -9,15 +9,33 @@ if(!isset($_POST["name"])){
 
 $name=$_POST["name"];
 $description=$_POST["description"];
-$photo=$_POST["photo"];
+// $photo=$_POST["photo"];
 
-if(empty($name) || empty($description) || empty($photo)){
+if(empty($name) || empty($description)){
     echo "請填入必要欄位";
     exit;
 }
 
+if ($_FILES["photo"]["error"] == 0) {
+    $filename = time();
+    $fileExt = pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION);
+    $filename = $filename.".".$fileExt;
+    // echo $filename;
+    // exit;
 
-$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description','$photo', 1)";
+
+    // 將文件從暫存位置移動到目標資料夾
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../baseball/assets/img/teacher_img/" . $filename)) {
+
+        echo "上傳成功";
+    } else {
+        echo "上傳失敗";
+    }
+}
+
+
+
+$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description','$filename', 1)";
 
 // echo $sql;
 // exit;

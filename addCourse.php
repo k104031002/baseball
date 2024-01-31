@@ -16,7 +16,7 @@
         echo date('Y-m-d H:i:s');
         ?>
 
-        <form action="doAddCourse.php" method="post">
+        <form action="doAddCourse.php" method="post" enctype="multipart/form-data">
             <div class="d-flex justify-content-center row g-3">
                 <div class="col-lg-4">
                     <label for="">課程名稱</label>
