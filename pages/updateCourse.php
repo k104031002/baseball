@@ -18,7 +18,6 @@ $id = $_POST["id"];
 
 
 // 將類型陣列轉換為字串，以便存儲到資料庫中
-// $typeStr = implode(", ", $type);
 $type=implode("," ,$selectype);
 
 if ($_FILES["photo"]["error"] == 0) {

@@ -8,7 +8,7 @@ if(!isset($_POST["name"])){
 }
 
 $name=$_POST["name"];
-$type=$_POST["type"];
+$selectype=isset($_POST["type"]) ? $_POST["type"] :[];
 $price=$_POST["price"];
 $teacher=$_POST["teacher_id"];
 $course_start=$_POST["course_start"];
@@ -23,6 +23,9 @@ if(empty($name) || empty($price) ){
 
 $now=date('Y-m-d H:i:s');
 
+// 將類型陣列轉換為字串，以便存儲到資料庫中
+$type=implode("," ,$selectype);
+
 if ($_FILES["photo"]["error"] == 0) {
     $filename = time();
     $fileExt = pathinfo($_FILES["photo"]["name"],PATHINFO_EXTENSION);
@@ -32,7 +35,7 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
     // 將文件從暫存位置移動到目標資料夾
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "./assets/img/course_img/" . $filename)) {
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../assets/img/course_img/" . $filename)) {
 
         echo "上傳成功";
     } else {
