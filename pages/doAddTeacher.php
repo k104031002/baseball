@@ -9,6 +9,7 @@ if(!isset($_POST["name"])){
 
 $name=$_POST["name"];
 $description=$_POST["description"];
+
 // $photo=$_POST["photo"];
 
 if(empty($name) || empty($description)){
@@ -35,7 +36,7 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
 
-$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description','$filename', 1)";
+$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description',,'$filename', 1)";
 
 // echo $sql;
 // exit;
