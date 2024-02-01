@@ -175,7 +175,7 @@ if ($rowCount != 0) {
                         <a class="btn btn-primary" href="teacher_list.php" role="button">
                             <i class="fa-solid fa-arrow-left"></i>返回教練列表
                         </a>
-                        <a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen"></i></a>
+                        <a class="btn btn-warning" name="" id="" role="button" href="edit_teacher.php?id=<?= $row["id"] ?>"><i class="fa-solid fa-pen"></i></a>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal"><i class="fa-solid fa-trash"></i></button>
                     </div>
                 </div>

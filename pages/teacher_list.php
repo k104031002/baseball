@@ -244,7 +244,7 @@ if (isset($_GET["search"])) {
                         <td><h3><?= $teacher["name"] ?></h3></td>
                         <td><?= $teacher["description"] ?></td>
                         <td><a class="btn btn-primary" href="teacher.php?id=<?= $teacher["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_teacher.php?id=<?= $teacher["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a class="btn btn-warning" name="" id="" role="button" href="edit_teacher.php?id=<?= $teacher["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
                         <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?=$teacher["id"]?>"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                     <!-- 彈窗 -->

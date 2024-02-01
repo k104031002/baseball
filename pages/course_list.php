@@ -289,7 +289,7 @@ if (isset($_GET["search"])) {
                 ?>
                     <tr class="text-center">
                         <td><a class="btn btn-primary" href="course.php?id=<?= $course["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                        <td><a class="btn btn-primary" name="" id="" role="button" href="edit_course.php?id=<?= $course["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                        <td><a class="btn btn-warning" name="" id="" role="button" href="edit_course.php?id=<?= $course["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
                         <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?=$course["id"]?>"><i class="fa-solid fa-trash"></i></button></td>
                         <td><?=$course["id"]?></td>
                         <td class="col-lg-3"><img class="object-fit-cover" src="../assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
@@ -297,7 +297,7 @@ if (isset($_GET["search"])) {
                         <td><?= $course["type"] ?></td>
                         <td><?= $course["description"] ?></td>
                         <td><?= $course["price"] ?></td>
-                        <td class="text-info"><?= $course["teacher_name"] ?></td>
+                        <td class="text-info"><a href=""></a><?= $course["teacher_name"] ?></td>
                         <td><?= $course["course_start"] ?></td>
                         <td><?= $course["course_end"] ?></td>
                     </tr>
