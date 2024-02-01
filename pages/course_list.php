@@ -2,12 +2,18 @@
 require_once("./db_connect.php");
 
 $perPage = 6;
+
+
 $sqlAll = "SELECT * FROM course WHERE valid=1";
 $resultAll = $conn->query($sqlAll);
 $courseTotalCount = $resultAll->num_rows;
 
 $pageCount = ceil($courseTotalCount / $perPage); // ceil 無條件進位
 
+$orderString = ""; // 初始化排序条件
+$searchString = ""; // 初始化搜索条件
+
+// 构建排序条件
 if (isset($_GET["order"])) {
     $order = $_GET["order"];
 
@@ -16,23 +22,58 @@ if (isset($_GET["order"])) {
     } elseif ($order == 2) {
         $orderString = "ORDER BY id DESC";
     }
+    elseif ($order == 3) {
+      $orderString = "ORDER BY course_start ASC";
+  }
+  elseif ($order == 4) {
+    $orderString = "ORDER BY course_start DESC";
 }
-
+}
+// 构建搜索条件
 if (isset($_GET["search"])) {
     $search = $_GET["search"];
-    $sql = "SELECT * FROM course WHERE name LIKE '%$search%' AND valid=1 ";
-} elseif (isset($_GET["p"])) {
+    // $searchString="AND name LIKE '%$search%'";
+    $sql = "SELECT course.*, teacher.name AS teacher_name 
+    FROM course 
+    JOIN teacher ON course.teacher_id = teacher.id WHERE name LIKE '%$search%' AND valid=1 ";
+}
+
+// 构建查询语句
+ if (isset($_GET["p"])) {
     $p = $_GET["p"];
     $startIndex = ($p - 1) * $perPage;
-    $sql = "SELECT * FROM course WHERE valid=1 $orderString LIMIT  $startIndex, $perPage";
+    $sql = "SELECT course.*, teacher.name AS teacher_name 
+            FROM course 
+            JOIN teacher ON course.teacher_id = teacher.id  
+            WHERE course.valid = 1 $searchString 
+            $orderString 
+            LIMIT $startIndex, $perPage";
+    // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT  $startIndex, $perPage";
 } else {
     $p = 1;
     $order = 1;
     $orderString = "ORDER BY id ASC";
-    $sql = "SELECT * FROM course WHERE valid=1  $orderString LIMIT $perPage";
+    $sql = "SELECT course.*, teacher.name AS teacher_name 
+            FROM course 
+            JOIN teacher ON course.teacher_id = teacher.id  
+            WHERE course.valid = 1 $searchString 
+            $orderString 
+            LIMIT $perPage";
+    // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT $perPage";
 }
 
-// $sql = "SELECT course.*, FROM (course JOIN teacher ON teacher_id=id) WHERE valid=1";
+// $selectTeacher=isset($_POST["teacher_id"]) ? $_POST["teacher_id"] :[];
+// 將類型陣列轉換為字串，以便存儲到資料庫中
+// $teacherID=implode("," ,$selectTeacher);
+
+// $sql = "SELECT course.*,teacher.name AS teacher_name FROM course JOIN teacher ON course.teacher_id=teacher.id  WHERE course.valid=1"  ;
+// if($_GET["teacher_id"]== null){
+//   $sql = "SELECT * FROM course  WHERE valid=1"  ;
+// }
+  
+
+
+
 $result = $conn->query($sql);
 
 
@@ -69,8 +110,9 @@ if (isset($_GET["search"])) {
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="../assets/css/ader.css" rel="stylesheet" />
+  <link href="./ader.css" rel="stylesheet"/>
   <?php include("../assets/css/ws_css.php") ?>
+  
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -200,6 +242,7 @@ if (isset($_GET["search"])) {
                 </div>
             </div>
         </div>
+       
         <div class="d-flex justify-content-between pb-2 align-items-center">
             <div>
                 共 <?= $courseCount ?> 筆
@@ -211,8 +254,10 @@ if (isset($_GET["search"])) {
         <?php if(!isset($_GET["search"])): ?>
         <div class="py-2 justify-content-end d-flex align-items-center">
             <div class="btn-group ">
-            <a <?php if($order==1) echo "active"?> class="btn btn-primary" href="course_list.php?order=1&p=<?=$p?>"><i class="fa-solid fa-arrow-up-1-9"></i></a>
-            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=2&p=<?=$p?>"><i class="fa-solid fa-arrow-up-9-1"></i></a>
+            <a <?php if($order==1) echo "active"?> class="btn btn-primary" href="course_list.php?order=1&p=<?=$p?>"><i class="fa-solid fa-arrow-down-1-9"></i></a>
+            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=2&p=<?=$p?>"><i class="fa-solid fa-arrow-down-9-1"></i></a>
+            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=3&p=<?=$p?>"><i class="fa-solid fa-arrow-down-wide-short"></i>從舊到新</a>
+            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=4&p=<?=$p?>"><i class="fa-solid fa-arrow-down-short-wide"></i>從新到舊</a>
             </div>
         </div>
             <?php endif;?>
@@ -252,7 +297,7 @@ if (isset($_GET["search"])) {
                         <td><?= $course["type"] ?></td>
                         <td><?= $course["description"] ?></td>
                         <td><?= $course["price"] ?></td>
-                        <td class="text-info"><?= $course["teacher_id"] ?></td>
+                        <td class="text-info"><?= $course["teacher_name"] ?></td>
                         <td><?= $course["course_start"] ?></td>
                         <td><?= $course["course_end"] ?></td>
                     </tr>
