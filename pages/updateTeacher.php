@@ -19,16 +19,19 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
     // 將文件從暫存位置移動到目標資料夾
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../assets/img/teacher_img/" . $filename)) {
+     move_uploaded_file($_FILES["photo"]["tmp_name"], "../assets/img/teacher_img/" . $filename);
 
-        echo "上傳成功";
-    } else {
-        echo "上傳失敗";
-    }
-}
+    //     echo "上傳成功";
+    // } else {
+    //     echo "上傳失敗";
+    // }
+
 
 
 $sql="UPDATE teacher SET name='$name',description='$description',photo='$filename' WHERE id=$id";
+}else{
+    $sql="UPDATE teacher SET name='$name',description='$description' WHERE id=$id";
+}
 
 if ($conn->query($sql)===TRUE){
     echo "更新成功";

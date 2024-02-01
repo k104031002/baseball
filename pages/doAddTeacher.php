@@ -36,7 +36,7 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
 
-$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description',,'$filename', 1)";
+$sql="INSERT INTO teacher (name, description, photo, valid)VALUES('$name','$description','$filename', 1)";
 
 // echo $sql;
 // exit;
