@@ -8,6 +8,10 @@ $sqlAll = "SELECT * FROM course WHERE valid=1";
 $resultAll = $conn->query($sqlAll);
 $courseTotalCount = $resultAll->num_rows;
 
+// $sqlType="SELECT * FROM type ";
+// $resultType=$conn->query($sqlType);
+// $rowsType=$resultType->fetch_all(MYSQLI_ASSOC);
+
 $pageCount = ceil($courseTotalCount / $perPage); // ceil 無條件進位
 
 $orderString = ""; // 初始化排序条件
@@ -27,13 +31,12 @@ if (isset($_GET["order"])) {
     $orderString = "ORDER BY course_start DESC";
   }
 }
+
 // 构建搜索条件
 if (isset($_GET["search"])) {
   $search = $_GET["search"];
   // $searchString="AND name LIKE '%$search%'";
-  $sql = "SELECT course.*, teacher.name AS teacher_name 
-    FROM course 
-    JOIN teacher ON course.teacher_id = teacher.id WHERE name LIKE '%$search%' AND valid=1 ";
+  $searchString = "AND course.name LIKE '%$search%'";
 }
 
 // 构建查询语句
@@ -43,22 +46,43 @@ if (isset($_GET["p"])) {
   $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
             JOIN teacher ON course.teacher_id = teacher.id  
-            WHERE course.valid = 1 $searchString 
+            -- JOIN type ON course.type_id =type.id  
+            WHERE course.valid = 1  $searchString 
             $orderString 
             LIMIT $startIndex, $perPage";
   // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT  $startIndex, $perPage";
-} else {
+
+}else {
   $p = 1;
   $order = 1;
   $orderString = "ORDER BY id ASC";
   $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
-            JOIN teacher ON course.teacher_id = teacher.id  
+            JOIN teacher ON course.teacher_id = teacher.id
+            -- JOIN type ON course.type_id =type.id  
             WHERE course.valid = 1 $searchString 
             $orderString 
             LIMIT $perPage";
   // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT $perPage";
 }
+
+// if(isset($_GET["cate"])){
+//   $cate= $_GET["cate"];
+//   $sql = "SELECT course.*, teacher.name AS teacher_name 
+//           FROM course 
+//           JOIN teacher ON course.teacher_id = teacher.id  
+//           JOIN type ON course.type_id = type.id 
+//           WHERE course.type_id = '$cate' AND course.valid = 1 
+//           $orderString ";
+//   } else {
+//     // 如果没有传递 cate 参数，则使用原始的查询语句
+//     $sql = "SELECT course.*, teacher.name AS teacher_name 
+//             FROM course 
+//             JOIN teacher ON course.teacher_id = teacher.id  
+//             WHERE course.valid = 1 
+//             $orderString ";
+//   }
+
 
 // $selectTeacher=isset($_POST["teacher_id"]) ? $_POST["teacher_id"] :[];
 // 將類型陣列轉換為字串，以便存儲到資料庫中
@@ -249,6 +273,19 @@ if (isset($_GET["search"])) {
           <a class="btn btn-primary" href="addCourse.php"><i class="fa-solid fa-calendar-plus"></i></a>
         </div>
       </div>
+      <div class="d-flex">
+      <div class="d-flex py-2 justify-content-start align-items-center">
+      <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link <?php if (!isset($_GET["cate"])) echo "active"; ?>" aria-current="page" href="course_list.php">全部</a>
+                </li>
+                <?php foreach ($rowsType as $type) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?php if (isset($_GET["cate"]) && $_GET["cate"] == $type["id"]) echo "active"; ?>" aria-current="page" href="course_list.php?cate=<?=$type["id"] ?>"><?= $type["name"] ?></a>
+                    </li>
+                <?php endforeach; ?>
+              </ul>
+        </div>
       <?php if (!isset($_GET["search"])) : ?>
         <div class="py-2 justify-content-end d-flex align-items-center">
           <div class="btn-group ">
@@ -259,6 +296,7 @@ if (isset($_GET["search"])) {
           </div>
         </div>
       <?php endif; ?>
+      </div>
       <?php
       if ($courseCount > 0) :
       ?>
