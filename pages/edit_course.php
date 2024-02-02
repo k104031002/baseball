@@ -263,13 +263,15 @@ $rowCount = $result->num_rows;
                 </tr>
                 <tr>
                   <th>時間</th>
-                  <td><input type="datetime-local" class="form-control" value="<?= $row["course_start"] ?>" name="course_start"></td>
-                  <td><input type="datetime-local" class="form-control" value="<?= $row["course_end"] ?>" name="course_end"></td>
+                  <td class="row">
+                  <div class="col-6"><input type="datetime-local" class="form-control" value="<?= $row["course_start"] ?>" name="course_start"></div>
+                  <div class="col-6"><input type="datetime-local" class="form-control" value="<?= $row["course_end"] ?>" name="course_end"></div>
+                  </td>
+                  
                 </tr>
                 <tr>
                   <th>介紹</th>
                   <td><textarea type="text" class="form-control" name="description" id="" cols="30" rows="10"><?= $row["description"] ?></textarea></td>
-
                 </tr>
               </table>
               <div class="pb-2">
