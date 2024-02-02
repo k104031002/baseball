@@ -1,3 +1,11 @@
+<?php
+require_once("./db_connect.php")
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +16,7 @@
   <!-- 網頁favcon -->
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    棒球好玩家
+    棒球好玩家-新增課程
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -23,7 +31,7 @@
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="./ader.css" rel="stylesheet"/>
+  <link href="./ader.css" rel="stylesheet" />
   <?php include("../assets/css/ws_css.php") ?>
 </head>
 
@@ -145,23 +153,34 @@
             <label for="">課程名稱</label>
             <input type="text" class="form-control" name="name">
             <label for="">類型</label>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="打擊" id="" name="type[]">
-                <label for="form-check-label">打擊</label>
-                <input class="form-check-input" type="checkbox" value="投球" id="" name="type[]">
-                <label for="form-check-label">投球</label>
-                <input class="form-check-input" type="checkbox" value="守備" id="" name="type[]">
-                <label for="form-check-label">守備</label>
-                <input class="form-check-input" type="checkbox" value="體能" id="" name="type[]">
-                <label for="form-check-label">體能</label>
-                <input class="form-check-input" type="checkbox" value="知識" id="" name="type[]">
-                <label for="form-check-label">知識</label>
-              </div>
-            
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="打擊" id="" name="type[]">
+              <label for="form-check-label">打擊</label>
+              <input class="form-check-input" type="checkbox" value="投球" id="" name="type[]">
+              <label for="form-check-label">投球</label>
+              <input class="form-check-input" type="checkbox" value="守備" id="" name="type[]">
+              <label for="form-check-label">守備</label>
+              <input class="form-check-input" type="checkbox" value="體能" id="" name="type[]">
+              <label for="form-check-label">體能</label>
+              <input class="form-check-input" type="checkbox" value="知識" id="" name="type[]">
+              <label for="form-check-label">知識</label>
+            </div>
+
             <label for="">價格</label>
             <input type="text" class="form-control" name="price">
             <label for="">配合教練</label>
-            <input type="text" class="form-control" name="teacher_id">
+            <select class="form-select" name="teacher_id" id="">
+            <?php
+            $sql="SELECT * FROM teacher WHERE valid = 1";
+            $result=$conn->query($sql);
+             // 检查查询结果是否非空
+            if ($result->num_rows > 0) {
+              // 循环输出所有老师选项
+              while ($row = $result->fetch_assoc()) {
+                echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+              }}
+            ?>
+            </select>
             <label for="">開課時間</label>
             <input type="datetime-local" class="form-control" name="course_start">
             <input type="datetime-local" class="form-control" name="course_end">
@@ -176,11 +195,11 @@
               <button type="submit" class="btn btn-primary">
                 送出
               </button>
-              </div>
             </div>
           </div>
         </div>
-      </form>
+    </div>
+    </form>
 
 
     </div>

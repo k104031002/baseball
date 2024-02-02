@@ -15,51 +15,49 @@ $searchString = ""; // 初始化搜索条件
 
 // 构建排序条件
 if (isset($_GET["order"])) {
-    $order = $_GET["order"];
+  $order = $_GET["order"];
 
-    if ($order == 1) {
-        $orderString = "ORDER BY id ASC";
-    } elseif ($order == 2) {
-        $orderString = "ORDER BY id DESC";
-    }
-    elseif ($order == 3) {
-      $orderString = "ORDER BY course_start ASC";
-  }
-  elseif ($order == 4) {
+  if ($order == 1) {
+    $orderString = "ORDER BY id ASC";
+  } elseif ($order == 2) {
+    $orderString = "ORDER BY id DESC";
+  } elseif ($order == 3) {
+    $orderString = "ORDER BY course_start ASC";
+  } elseif ($order == 4) {
     $orderString = "ORDER BY course_start DESC";
-}
+  }
 }
 // 构建搜索条件
 if (isset($_GET["search"])) {
-    $search = $_GET["search"];
-    // $searchString="AND name LIKE '%$search%'";
-    $sql = "SELECT course.*, teacher.name AS teacher_name 
+  $search = $_GET["search"];
+  // $searchString="AND name LIKE '%$search%'";
+  $sql = "SELECT course.*, teacher.name AS teacher_name 
     FROM course 
     JOIN teacher ON course.teacher_id = teacher.id WHERE name LIKE '%$search%' AND valid=1 ";
 }
 
 // 构建查询语句
- if (isset($_GET["p"])) {
-    $p = $_GET["p"];
-    $startIndex = ($p - 1) * $perPage;
-    $sql = "SELECT course.*, teacher.name AS teacher_name 
+if (isset($_GET["p"])) {
+  $p = $_GET["p"];
+  $startIndex = ($p - 1) * $perPage;
+  $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
             JOIN teacher ON course.teacher_id = teacher.id  
             WHERE course.valid = 1 $searchString 
             $orderString 
             LIMIT $startIndex, $perPage";
-    // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT  $startIndex, $perPage";
+  // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT  $startIndex, $perPage";
 } else {
-    $p = 1;
-    $order = 1;
-    $orderString = "ORDER BY id ASC";
-    $sql = "SELECT course.*, teacher.name AS teacher_name 
+  $p = 1;
+  $order = 1;
+  $orderString = "ORDER BY id ASC";
+  $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
             JOIN teacher ON course.teacher_id = teacher.id  
             WHERE course.valid = 1 $searchString 
             $orderString 
             LIMIT $perPage";
-    // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT $perPage";
+  // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT $perPage";
 }
 
 // $selectTeacher=isset($_POST["teacher_id"]) ? $_POST["teacher_id"] :[];
@@ -70,7 +68,7 @@ if (isset($_GET["search"])) {
 // if($_GET["teacher_id"]== null){
 //   $sql = "SELECT * FROM course  WHERE valid=1"  ;
 // }
-  
+
 
 
 
@@ -78,11 +76,11 @@ $result = $conn->query($sql);
 
 
 if (isset($_GET["search"])) {
-    $courseCount = $result->num_rows;
+  $courseCount = $result->num_rows;
 } else {
-    $sqlAll = "SELECT * FROM course WHERE valid=1";
-    $resultAll = $conn->query($sqlAll);
-    $courseCount = $resultAll->num_rows;
+  $sqlAll = "SELECT * FROM course WHERE valid=1";
+  $resultAll = $conn->query($sqlAll);
+  $courseCount = $resultAll->num_rows;
 }
 ?>
 <!DOCTYPE html>
@@ -95,7 +93,7 @@ if (isset($_GET["search"])) {
   <!-- 網頁favcon -->
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    棒球好玩家
+    棒球好玩家-課程列表
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -110,9 +108,9 @@ if (isset($_GET["search"])) {
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="./ader.css" rel="stylesheet"/>
+  <link href="./ader.css" rel="stylesheet" />
   <?php include("../assets/css/ws_css.php") ?>
-  
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -220,121 +218,121 @@ if (isset($_GET["search"])) {
     </nav>
     <div class="container">
       <!-- CODE貼這裡~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-        <h1>課程列表</h1>
-        <div class="py-2">
-            <div class="row g-3">
-                <?php if (isset($_GET["search"])) : ?>
-                    <div class="col-auto">
-                        <a href="course_list.php" class="btn btn-primary" name="" id="" role="button">
-                            <i class="fa-solid fa-angle-left fa-fw"></i>
-                        </a>
-                    </div>
-                <?php endif; ?>
-                <div class="col">
-                    <form action="">
-                        <div class="input-group mb-3">
-                            <input type="search" class="form-control" placeholder="課程名稱" aria-label="Recipient's coursename" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
-                                                                                                                                                                                $searchValue = $_GET["search"];
-                                                                                                                                                                            ?> value="<?= $searchValue ?>" <?php endif ?>> <!--php 這串為持續顯示自己搜尋的字串 -->
-                            <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </div>
-                    </form>
-                </div>
+      <h1>課程列表</h1>
+      <div class="py-2">
+        <div class="row g-3">
+          <?php if (isset($_GET["search"])) : ?>
+            <div class="col-auto">
+              <a href="course_list.php" class="btn btn-primary" name="" id="" role="button">
+                <i class="fa-solid fa-angle-left fa-fw"></i>
+              </a>
             </div>
+          <?php endif; ?>
+          <div class="col">
+            <form action="">
+              <div class="input-group mb-3">
+                <input type="search" class="form-control" placeholder="課程名稱" aria-label="Recipient's coursename" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) :
+                                                                                                                                                                  $searchValue = $_GET["search"];
+                                                                                                                                                                ?> value="<?= $searchValue ?>" <?php endif ?>> <!--php 這串為持續顯示自己搜尋的字串 -->
+                <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass"></i></button>
+              </div>
+            </form>
+          </div>
         </div>
-       
-        <div class="d-flex justify-content-between pb-2 align-items-center">
-            <div>
-                共 <?= $courseCount ?> 筆
-            </div>
-            <div>
-            <a class="btn btn-primary" href="addCourse.php"><i class="fa-solid fa-calendar-plus"></i></a>
-            </div>
-        </div>
-        <?php if(!isset($_GET["search"])): ?>
-        <div class="py-2 justify-content-end d-flex align-items-center">
-            <div class="btn-group ">
-            <a <?php if($order==1) echo "active"?> class="btn btn-primary" href="course_list.php?order=1&p=<?=$p?>"><i class="fa-solid fa-arrow-down-1-9"></i></a>
-            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=2&p=<?=$p?>"><i class="fa-solid fa-arrow-down-9-1"></i></a>
-            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=3&p=<?=$p?>"><i class="fa-solid fa-arrow-down-wide-short"></i>從舊到新</a>
-            <a <?php if($order==2) echo "active"?> class="btn btn-primary" href="course_list.php?order=4&p=<?=$p?>"><i class="fa-solid fa-arrow-down-short-wide"></i>從新到舊</a>
-            </div>
-        </div>
-            <?php endif;?>
-            <?php
-        if ($courseCount > 0) :
-        ?>
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr class="text-center">
-                    <th>詳細資訊</th>
-                    <th>編輯</th>
-                    <th>下架</th>
-                    <th>編號</th>
-                    <th>照片</th>
-                    <th>名稱</th>
-                    <th>種類</th>
-                    <th>介紹</th>
-                    <th>價格</th>
-                    <th>配合教練</th>
-                    <th>開課時間</th>
-                    <th>結束時間</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $rows = $result->fetch_all(MYSQLI_ASSOC);
+      </div>
 
-                foreach ($rows as $course) :
-                ?>
-                    <tr class="text-center">
-                        <td><a class="btn btn-primary" href="course.php?id=<?= $course["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
-                        <td><a class="btn btn-warning" name="" id="" role="button" href="edit_course.php?id=<?= $course["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
-                        <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?=$course["id"]?>"><i class="fa-solid fa-trash"></i></button></td>
-                        <td><?=$course["id"]?></td>
-                        <td class="col-lg-3"><img class="object-fit-cover" src="../assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
-                        <td><?= $course["name"] ?></td>
-                        <td><?= $course["type"] ?></td>
-                        <td><?= $course["description"] ?></td>
-                        <td><?= $course["price"] ?></td>
-                        <td class="text-info"><a href=""></a><?= $course["teacher_name"] ?></td>
-                        <td><?= $course["course_start"] ?></td>
-                        <td><?= $course["course_end"] ?></td>
-                    </tr>
-                    <!-- 彈窗 -->
-                    <div class="modal fade" id="confrimModal<?=$course["id"]?>" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">刪除教練</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    確認刪除?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
-                                    <a role="button" class="btn btn-danger" href="doDeleteCourse.php?id=<?= $course['id'] ?>">確潤</a>
-                                </div>
-                            </div>
-                        </div>
+      <div class="d-flex justify-content-between pb-2 align-items-center">
+        <div>
+          共 <?= $courseCount ?> 筆
+        </div>
+        <div>
+          <a class="btn btn-primary" href="addCourse.php"><i class="fa-solid fa-calendar-plus"></i></a>
+        </div>
+      </div>
+      <?php if (!isset($_GET["search"])) : ?>
+        <div class="py-2 justify-content-end d-flex align-items-center">
+          <div class="btn-group ">
+            <a <?php if ($order == 1) echo "active" ?> class="btn btn-primary" href="course_list.php?order=1&p=<?= $p ?>"><i class="fa-solid fa-arrow-down-1-9"></i></a>
+            <a <?php if ($order == 2) echo "active" ?> class="btn btn-primary" href="course_list.php?order=2&p=<?= $p ?>"><i class="fa-solid fa-arrow-down-9-1"></i></a>
+            <a <?php if ($order == 2) echo "active" ?> class="btn btn-primary" href="course_list.php?order=3&p=<?= $p ?>"><i class="fa-solid fa-arrow-down-wide-short"></i>從舊到新</a>
+            <a <?php if ($order == 2) echo "active" ?> class="btn btn-primary" href="course_list.php?order=4&p=<?= $p ?>"><i class="fa-solid fa-arrow-down-short-wide"></i>從新到舊</a>
+          </div>
+        </div>
+      <?php endif; ?>
+      <?php
+      if ($courseCount > 0) :
+      ?>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="text-center">
+              <th>詳細資訊</th>
+              <th>編輯</th>
+              <th>下架</th>
+              <th>編號</th>
+              <th>照片</th>
+              <th>名稱</th>
+              <th>種類</th>
+              <th>價格</th>
+              <th>配合教練</th>
+              <th>開課時間</th>
+              <th>結束時間</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            $rows = $result->fetch_all(MYSQLI_ASSOC);
+
+            foreach ($rows as $course) :
+            ?>
+              <tr class="text-center">
+                <td><a class="btn btn-primary" href="course.php?id=<?= $course["id"] ?>" role="button"><i class="fa-regular fa-eye"></i></a></td>
+                <td><a class="btn btn-warning" name="" id="" role="button" href="edit_course.php?id=<?= $course["id"] ?>"><i class="fa-solid fa-pen"></i></a></td>
+                <td><button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confrimModal<?= $course["id"] ?>"><i class="fa-solid fa-trash"></i></button></td>
+                <td><?= $course["id"] ?></td>
+                <td class="col-lg-3"><img class="object-fit-cover" src="../assets/img/course_img/<?= $course["photo"] ?>" alt="<?= $course["name"] ?>"></td>
+                <td><?= $course["name"] ?></td>
+                <td><?= $course["type"] ?></td>
+                <td><?= $course["price"] ?></td>
+                <td><a class="text-info" href="teacher.php?id=<?= $course["teacher_id"] ?>"><?= $course["teacher_name"] ?></a></td>
+                <td><?= $course["course_start"] ?></td>
+                <td><?= $course["course_end"] ?></td>
+
+              </tr>
+              <!-- 彈窗 -->
+              <div class="modal fade" id="confrimModal<?= $course["id"] ?>" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">刪除教練</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- 彈窗結束 -->
-                <?php endforeach; ?>
-            </tbody>
+                    <div class="modal-body">
+                      確認刪除?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <a role="button" class="btn btn-danger" href="doDeleteCourse.php?id=<?= $course['id'] ?>">確潤</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- 彈窗結束 -->
+            <?php endforeach; ?>
+          </tbody>
         </table>
-        <?php if (!isset($_GET["search"])): ?>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <?php for($i=1;$i<=$pageCount;$i++): ?>
-                    <li class="page-item <?php if($i==$p)echo "active"?>">
-                    <a class="page-link" href="course_list.php?order=<?=$order?>&p=<?=$i?>">
-                    <?=$i?>
-                </a></li>
-                    <?php endfor; ?>
-                </ul>
-            </nav>
-            <?php endif; ?>
+        <?php if (!isset($_GET["search"])) : ?>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                  <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                    <li class="page-item <?php if ($i == $p) echo "active" ?>">
+                      <a class="page-link" href="course_list.php?order=<?= $order ?>&p=<?= $i ?>">
+                        <?= $i ?></a>
+                    </li>
+                  <?php endfor; ?>
+                  
+            </ul>
+          </nav>
+        <?php endif; ?>
     </div>
     <!-- End Navbar -->
   </main>
@@ -401,32 +399,32 @@ if (isset($_GET["search"])) {
       </div>
     </div>
   </div>
-  <?php else : ?>
-            沒有使用者
-        <?php endif; ?>
-    </div>
+<?php else : ?>
+  沒有使用者
+<?php endif; ?>
+</div>
 
-    
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+
+<!--   Core JS Files   -->
+<script src="../assets/js/core/popper.min.js"></script>
+<script src="../assets/js/core/bootstrap.min.js"></script>
+<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+<script>
+  var win = navigator.platform.indexOf('Win') > -1;
+  if (win && document.querySelector('#sidenav-scrollbar')) {
+    var options = {
+      damping: '0.5'
     }
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
-  <?php include("./js.php") ?>
-  <?php include("../assets/js/ws_js.php") ?>
+    Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+  }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="../assets/js/material-dashboard.min.js?v=3.0.0"></script>
+<?php include("./js.php") ?>
+<?php include("../assets/js/ws_js.php") ?>
 </body>
 
 </html>

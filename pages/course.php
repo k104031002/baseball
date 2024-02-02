@@ -9,7 +9,7 @@ $id = $_GET["id"];
 
 require_once("./db_connect.php");
 
-$sql = "SELECT * FROM course WHERE id=$id AND valid=1";
+$sql = "SELECT course.*,teacher.name AS teacher_name FROM course JOIN teacher ON course.teacher_id=teacher.id  WHERE course.id=$id AND course.valid=1";
 $result = $conn->query($sql);
 
 
@@ -32,7 +32,7 @@ if ($rowCount != 0) {
   <!-- 網頁favcon -->
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    棒球好玩家
+    棒球好玩家-課程細節
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -175,7 +175,7 @@ if ($rowCount != 0) {
                     <div><p class="course-p"><?= $row["description"] ?></p> </div>
                     <div>
                         <h2>配合教練</h2>
-                        <p class="text-info"><?= $row["teacher_id"] ?></p>
+                        <a class="text-info" href="teacher.php?id=<?=$row["teacher_id"]?>"><?= $row["teacher_name"] ?></a>
                     </div>
                     <div>
                         <h2>開課時間</h2><?= $row["course_start"] ?><br>~<br><?= $row["course_end"] ?>

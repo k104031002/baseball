@@ -25,7 +25,7 @@ $rowCount = $result->num_rows;
   <!-- 網頁favcon -->
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    棒球好玩家
+    棒球好玩家-課程編輯
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -40,7 +40,7 @@ $rowCount = $result->num_rows;
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="./ader.css" rel="stylesheet"/>
+  <link href="./ader.css" rel="stylesheet" />
   <?php include("../assets/css/ws_css.php") ?>
 </head>
 
@@ -204,7 +204,7 @@ $rowCount = $result->num_rows;
                       <label for="form-check-label">守備</label>
 
 
-                      <input class="form-check-input" type="checkbox" value="體能" id="" name="type[]"<?php
+                      <input class="form-check-input" type="checkbox" value="體能" id="" name="type[]" <?php
                                                                                                       $types = explode(",", $row["type"]); // 假設 type 是以逗號分隔的字串，將其轉換為陣列
 
                                                                                                       foreach ($types as $type) {
@@ -236,7 +236,22 @@ $rowCount = $result->num_rows;
                 </tr>
                 <tr>
                   <th>配合教練</th>
-                  <td><input type="text" class="form-control" value="<?= $row["teacher_id"] ?>" name="teacher_id"></td>
+                  <td>
+                    <select class="form-select" name="teacher_id" id="">
+                      <?php
+                      $sqlTeacher = "SELECT * FROM teacher WHERE valid = 1";
+                      $result = $conn->query($sqlTeacher);
+                      // 检查查询结果是否非空
+                      if ($result->num_rows > 0) {
+                        // 循环输出所有老师选项
+                        while ($rowTeacher = $result->fetch_assoc()) {
+                          echo "<option value='" . $rowTeacher['id'] . "'>" . $rowTeacher['name'] . "</option>";
+                        }
+                      }
+                      ?>
+                    </select>
+                  </td>
+                  <!-- <td><input type="text" class="form-control" value="<?= $row["teacher_id"] ?>" name="teacher_id"></td> -->
                 </tr>
                 <tr>
                   <th>預覽宣傳照</th>
