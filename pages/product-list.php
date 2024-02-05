@@ -10,15 +10,30 @@ $sqlAll = "SELECT * FROM product WHERE valid=1";
 $resultAll = $conn->query($sqlAll);
 $rowsAll = $resultAll->fetch_all(MYSQLI_ASSOC);
 $rowAllCount = $resultAll->num_rows;
-// 全部商品總數量 / 一頁有幾筆
+// 全部商品總數量 / 一頁有幾筆 = 總頁數
 $pageCount = ceil($rowAllCount / $perPage);
+
+// 當前頁數
+if (isset($_GET["p"])) {
+    $p = $_GET["p"];
+} else {
+    $p = 1;
+}
+
+// 計算起始頁和結束頁
+$startPage = max(1, $p - 2);
+$endPage = min($pageCount, $startPage + 4);
+
+// 如果結束頁超過總頁數，調整起始頁
+if ($endPage - $startPage < 4) {
+    $startPage = max(1, $endPage - 4);
+}
 
 
 
 // 排序 order 
 if (isset($_GET["order"])) {
     $order = $_GET["order"];
-
     if ($order == 1) {
         $orderString = "ORDER BY id ASC";
     } elseif ($order == 2) {
@@ -27,6 +42,10 @@ if (isset($_GET["order"])) {
         $orderString = "ORDER BY price ASC";
     } elseif ($order == 4) {
         $orderString = "ORDER BY price DESC";
+    } elseif ($order == 5) {
+        $orderString = "ORDER BY created_at ASC";
+    } elseif ($order == 6) {
+        $orderString = "ORDER BY created_at DESC";
     }
 } else {
     $orderString = "ORDER BY id ASC";
@@ -45,6 +64,15 @@ if (isset($_GET["class"]) && isset($_GET["p"])) {
     $resultClass = $conn->query($sqlClass);
     $rowsClassCount = $resultClass->num_rows;
     $pageClassCount = ceil($rowsClassCount / $perPage);
+
+    // 計算起始頁和結束頁
+    $startPage = max(1, $p - 2);
+    $endPage = min($pageClassCount, $startPage + 4);
+
+    // 如果結束頁超過總頁數，調整起始頁
+    if ($endPage - $startPage < 4) {
+        $startPage = max(1, $endPage - 4);
+    }
 
     // 結果
     $whereClause = "WHERE class = '$class' AND valid=1";
@@ -68,6 +96,15 @@ if (isset($_GET["class"]) && isset($_GET["p"])) {
     $resultClass = $conn->query($sqlClass);
     $rowsClassCount = $resultClass->num_rows;
     $pageClassCount = ceil($rowsClassCount / $perPage);
+
+    // 計算起始頁和結束頁
+    $startPage = max(1, $p - 2);
+    $endPage = min($pageClassCount, $startPage + 4);
+
+    // 如果結束頁超過總頁數，調整起始頁
+    if ($endPage - $startPage < 4) {
+        $startPage = max(1, $endPage - 4);
+    }
 
     // 結果
     $whereClause = "WHERE class = '$class' AND valid=1";
@@ -162,7 +199,7 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                     </div>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <a class="text-white  nav-ader" href="#">
+                            <a class="text-white  nav-ader" href="./product_order.php">
                                 <span class="nav-link-text ms-1">訂單列表</span>
                             </a>
                         </div>
@@ -360,17 +397,17 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                                 <a class="btn btn-primary my-3 btn-index-yu" href="product-list.php">
                                     <i class="fa-solid fa-arrow-left fa-fw"></i> 返回
                                 </a>
-                            <?php endif; ?>
                             </div>
-                            <div class="col-3">
-                                <form action="">
-                                    <div class="input-group my-3">
-                                        <input type="search" class="form-control p-2" placeholder="全部商品搜尋..." aria-label="Recipient's username" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) : $searchValue = $_GET["search"]; ?> value="<?= $searchValue ?>" <?php endif; ?> required>
+                        <?php endif; ?>
+                        <div class="col-4">
+                            <form action="">
+                                <div class="input-group my-3">
+                                    <input type="search" class="form-control p-2" placeholder="全部商品搜尋..." aria-label="Recipient's username" aria-describedby="button-addon2" name="search" <?php if (isset($_GET["search"])) : $searchValue = $_GET["search"]; ?> value="<?= $searchValue ?>" <?php endif; ?> required>
 
-                                        <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass fa-fw"></i></button>
-                                    </div>
-                                </form>
-                            </div>
+                                    <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-solid fa-magnifying-glass fa-fw"></i></button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
 
@@ -378,10 +415,10 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
 
 
 
-                    <div class="row d-flex">
+                    <div class="row d-flex p-1 mx-auto">
 
                         <!-- 共有幾件商品 -->
-                        <div class="col-auto page-span d-flex align-items-end me-5">
+                        <div class="col-8 page-span d-flex align-items-end">
                             <!-- 全部的 -->
                             <?php if ($rowscount > 0 && !isset($_GET["class"]) && !isset($_GET["search"])) : ?>
                                 共 <?= $rowAllCount ?> 件商品 , &nbsp;第&nbsp;<?= "<span>" . $p . "</span>" ?>&nbsp;頁 / 共 <?= $pageCount ?> 頁
@@ -394,55 +431,142 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                             <?php endif; ?>
                         </div>
 
-                        <div class="col d-flex justify-content-end">
+
+
+
+                        <div class="col-4 d-flex justify-content-end">
                             <!-- 排序的部分 -->
                             <?php if (!isset($_GET["search"])) : ?>
-                                <div class=" col-auto ms-4 me-4 my-1 nowrap d-flex align-items-end justify-content-end">
-                                    <!-- 有點選類別，然後點排序的狀態 -->
-                                    <?php if (isset($_GET["class"])) : ?>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 1) echo "active"; ?>
-                        " href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=1">
-                                            編號 <i class="fa-solid fa-square-caret-up fa-fw"></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 2) echo "active"; ?>
-                        " href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=2">
-                                            編號 <i class="fa-solid fa-square-caret-down fa-fw"></i></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 3) echo "active"; ?>
-                        " href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=3">
-                                            價格 <i class="fa-solid fa-square-caret-up fa-fw"></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 4) echo "active"; ?>
-                        " href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=4">
-                                            價格 <i class="fa-solid fa-square-caret-down fa-fw"></i></i>
-                                        </a>
 
-                                        <!-- 沒有點選類別(位於全部)，然後點排序的狀態 -->
-                                    <?php else : ?>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 1) echo "active"; ?>
-                        " href="product-list.php?p=<?= $p ?>&order=1">
-                                            編號 <i class="fa-solid fa-square-caret-up fa-fw"></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 2) echo "active"; ?>
-                        " href="product-list.php?p=<?= $p ?>&order=2">
-                                            編號 <i class="fa-solid fa-square-caret-down fa-fw"></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 3) echo "active"; ?>
-                        " href="product-list.php?p=<?= $p ?>&order=3">
-                                            價格 <i class="fa-solid fa-square-caret-up fa-fw"></i>
-                                        </a>
-                                        <a class="btn-sort btn-primary m-1 <?php if ($order == 4) echo "active"; ?>
-                        " href="product-list.php?p=<?= $p ?>&order=4">
-                                            價格 <i class="fa-solid fa-square-caret-down fa-fw"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
+                                <!-- 有點選類別，然後點排序的狀態 -->
+                                <?php if (isset($_GET["class"])) : ?>
+                                    <div class="btn-group col-auto mb-2 nowrap d-flex align-items-end justify-content-end" role="group" aria-label="Button group with nested dropdown">
+
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?php if (!isset($order)) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大";
+                                            } elseif ($order == 1) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大 ";
+                                            } elseif ($order == 2) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 :  大 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 小 ";
+                                            } elseif ($order == 3) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 低 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 高 ";
+                                            } elseif ($order == 4) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 高 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 低 ";
+                                            } elseif ($order == 5) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 舊 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 新 ";
+                                            } elseif ($order == 6) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 新 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 舊 ";
+                                            } ?>
+                                        </button>
+                                        <ul class="dropdown-menu">
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=1">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=2">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 大 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 小
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=3">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 低 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 高
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=4">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 高 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 低
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=5">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 舊 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 新
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?class=<?= $class ?>&p=<?= $p ?>&order=6">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 新 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 舊
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- 沒有點選類別(位於全部)，然後點排序的狀態 -->
+                                <?php else : ?>
+                                    <div class="btn-group col-auto mb-2 nowrap d-flex align-items-end justify-content-end" role="group" aria-label="Button group with nested dropdown">
+
+                                        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <?php if (!isset($order)) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大";
+                                            } elseif ($order == 1) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大 ";
+                                            } elseif ($order == 2) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 :  大 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 小 ";
+                                            } elseif ($order == 3) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 低 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 高 ";
+                                            } elseif ($order == 4) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 高 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 低 ";
+                                            } elseif ($order == 5) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 舊 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 新 ";
+                                            } elseif ($order == 6) {
+                                                echo "排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 新 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 舊 ";
+                                            } ?>
+                                        </button>
+                                        <ul class="dropdown-menu">
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=1">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 小 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 大
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=2">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 編號 : 大 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 小
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=3">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 低 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 高
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=4">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 價格 : 高 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 低
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=5">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 舊 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 新
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a class="dropdown-item" href="product-list.php?p=<?= $p ?>&order=6">
+                                                    排序 <i class='fa-solid fa-baseball fa-fw'></i> 更新時間 : 新 <i class='fa-solid fa-arrow-right-long fa-fw'></i> 舊
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                <?php endif; ?>
+
                             <?php endif; ?>
 
 
                             <!-- 新增商品的按鈕 -->
                             <?php if (!isset($_GET["search"])) : ?>
-                                <div class="col-auto text-end ms-2 my-2">
+                                <div class="col-auto text-end my-2 ms-5">
                                     <a class="btn-bs5 btn-bs5-circle btn-primary" href="product-add.php" role="button">
                                         <i class="fa-solid fa-file-circle-plus fa-fw fa-2xl"></i>
                                     </a>
@@ -468,6 +592,7 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                                 <th>類別 / 子類別</th>
                                 <th>顏色 / 尺寸</th>
                                 <th>價格</th>
+                                <th>更新時間</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -483,9 +608,10 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                                     <td class="text-start"><?= $product["name"] ?></td>
                                     <td><?= $product["brand"] ?></td>
                                     <td class="table-auto-yu"><?= $product["class"] ?> / <?= $product["other"] ?></td>
-                                    <td class="text-start">顏色: <?= $product["color"] ?><br>
+                                    <td class="text-start table-auto-yu">顏色: <?= $product["color"] ?><br>
                                         尺寸: <?= $product["size"] ?></td>
                                     <td class="table-auto-yu">$ <?= $product["price"] ?></td>
+                                    <td><?= $product["created_at"] ?></td>
                                     <td>
                                         <!-- 操作的按鈕 -->
                                         <div class="flex-nowrap d-flex justify-content-center">
@@ -517,7 +643,7 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
                                                             <a href="doSoftDelete.php?id=<?= $product["id"] ?>">
-                                                                <button type="button" class="btn btn-primary">刪除</button>
+                                                                <button type="button" class="btn btn-danger">刪除</button>
                                                             </a>
                                                         </div>
                                                     </div>
@@ -538,55 +664,214 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
                                 <?php if (isset($_GET["order"])) : ?>
                                     <!-- 在點 order 狀態下，點選「類別」的分頁 -->
                                     <?php if (isset($_GET["class"])) : ?>
-                                        <?php for ($i = 1; $i <= $pageClassCount; $i++) : ?>
+
+                                        <div class="me-3 d-flex">
+                                            <?php if ($p > 1) : ?>
+                                                <li class="page-item me-1">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=1&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-backward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+
+                                            <?php if ($startPage > 1) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= max(1, $p - 5) ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-angles-left fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php for ($i = $startPage; $i <= $endPage; $i++) : ?>
                                             <li class="page-item <?php if ($i == $p) echo "active"; ?>">
                                                 <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= $i ?>&order=<?= $order ?>">
                                                     <?= $i ?>
                                                 </a>
                                             </li>
-                                        <?php endfor ?>
+                                        <?php endfor; ?>
+
+                                        <div class="ms-3 d-flex">
+                                            <?php if ($endPage < $pageClassCount) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= min($pageClassCount, $p + 5) ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-angles-right fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <?php if ($p < $pageClassCount) : ?>
+                                                <li class="page-item ms-1">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= $pageClassCount ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-forward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
+
+
                                         <!-- 在點 order 狀態下，點選「全部」的分頁 -->
                                     <?php else : ?>
-                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                        <div class="me-3 d-flex">
+                                            <?php if ($p > 1) : ?>
+                                                <li class="page-item me-1">
+                                                    <a class="page-link" href="product-list.php?p=1&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-backward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+
+                                            <?php if ($startPage > 1) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?p=<?= max(1, $p - 5) ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-angles-left fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php for ($i = $startPage; $i <= $endPage; $i++) : ?>
                                             <li class="page-item <?php if ($i == $p) echo "active"; ?>">
                                                 <a class="page-link" href="product-list.php?p=<?= $i ?>&order=<?= $order ?>">
                                                     <?= $i ?>
                                                 </a>
                                             </li>
-                                        <?php endfor ?>
+                                        <?php endfor; ?>
+
+                                        <div class="ms-3 d-flex">
+                                            <?php if ($endPage < $pageCount) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?p=<?= min($pageCount, $p + 5) ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-angles-right fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <?php if ($p < $pageCount) : ?>
+                                                <li class="page-item ms-1">
+                                                    <a class="page-link" href="product-list.php?p=<?= $pageCount ?>&order=<?= $order ?>">
+                                                        <i class="fa-solid fa-forward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
 
                                     <?php endif; ?>
+
 
                                     <!-- 如果沒有點 order 按鈕 (一般狀態) 的情況-->
                                 <?php else : ?>
                                     <!-- 在一般狀態下，點選「類別」的分頁 -->
                                     <?php if (isset($_GET["class"])) : ?>
-                                        <?php for ($i = 1; $i <= $pageClassCount; $i++) : ?>
+
+                                        <div class="me-3 d-flex">
+                                            <?php if ($p > 1) : ?>
+                                                <li class="page-item me-1">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=1">
+                                                        <i class="fa-solid fa-backward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+
+                                            <?php if ($startPage > 1) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= max(1, $p - 5) ?>">
+                                                        <i class="fa-solid fa-angles-left fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php for ($i = $startPage; $i <= $endPage; $i++) : ?>
                                             <li class="page-item <?php if ($i == $p) echo "active"; ?>">
                                                 <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= $i ?>">
                                                     <?= $i ?>
                                                 </a>
                                             </li>
-                                        <?php endfor ?>
-                                        <!-- 在一般狀態下，點選「全部」的分頁 -->
+                                        <?php endfor; ?>
+
+                                        <div class="ms-3 d-flex">
+                                            <?php if ($endPage < $pageClassCount) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= min($pageClassCount, $p + 5) ?>">
+                                                        <i class="fa-solid fa-angles-right fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <?php if ($p < $pageClassCount) : ?>
+                                                <li class="page-item ms-1">
+                                                    <a class="page-link" href="product-list.php?class=<?= $_GET["class"] ?>&p=<?= $pageClassCount ?>">
+                                                        <i class="fa-solid fa-forward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
                                     <?php else : ?>
-                                        <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                                        <!-- 在一般狀態下，點選「全部」的分頁 -->
+                                        <div class="me-3 d-flex">
+                                            <?php if ($p > 1) : ?>
+                                                <li class="page-item me-1">
+                                                    <a class="page-link" href="product-list.php?p=1">
+                                                        <i class="fa-solid fa-backward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+
+                                            <?php if ($startPage > 1) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?p=<?= max(1, $p - 5) ?>">
+                                                        <i class="fa-solid fa-angles-left fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php for ($i = $startPage; $i <= $endPage; $i++) : ?>
                                             <li class="page-item <?php if ($i == $p) echo "active"; ?>">
                                                 <a class="page-link" href="product-list.php?p=<?= $i ?>">
                                                     <?= $i ?>
                                                 </a>
                                             </li>
-                                        <?php endfor ?>
+                                        <?php endfor; ?>
+
+                                        <div class="ms-3 d-flex">
+                                            <?php if ($endPage < $pageCount) : ?>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="product-list.php?p=<?= min($pageCount, $p + 5) ?>">
+                                                        <i class="fa-solid fa-angles-right fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+
+                                            <?php if ($p < $pageCount) : ?>
+                                                <li class="page-item ms-1">
+                                                    <a class="page-link" href="product-list.php?p=<?= $pageCount ?>">
+                                                        <i class="fa-solid fa-forward-fast fa-fw"></i>
+                                                    </a>
+                                                </li>
+                                            <?php endif; ?>
+                                        </div>
+
                                     <?php endif; ?>
                                 <?php endif; ?>
-
-
                             </ul>
                         </nav>
                     <?php endif; ?>
 
                     <!-- 如果都沒有商品的話會顯示 :  -->
                 <?php else : ?>
+                    <div class="">
+                        <a class="btn btn-primary my-3 btn-index-yu" href="product-list.php">
+                            <i class="fa-solid fa-arrow-left fa-fw"></i> 返回
+                        </a>
+                    </div>
                     <h5 class="text-secondary mt-5 mb-5">~ 尚無商品 ~</h5>
                 <?php endif; ?>
 
@@ -678,7 +963,7 @@ $rowsInfoClass = $resultInfoClass->fetch_all(MYSQLI_ASSOC);
         </div>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <?php
     include("../assets/js/js_yu.php");
     ?>

@@ -26,7 +26,7 @@ if ($_FILES["photo"]["error"] == 0) {
 
 
 
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "./asscts/img/account_img/" .  $filename)) {
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], "../assets/img/account_img/" .  $filename)) {
         // $filename = $_FILES["photo"]["name"];
         $now = date('Y-m-d H:i:s');
         // $sql = "INSERT INTO user (photo) VALUES ('$filename')";

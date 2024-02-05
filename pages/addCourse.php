@@ -2,6 +2,7 @@
 require_once("./db_connect.php")
 
 
+
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +73,7 @@ require_once("./db_connect.php")
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -256,16 +257,17 @@ require_once("./db_connect.php")
             <input type="text" class="form-control" name="price">
             <label for="">配合教練</label>
             <select class="form-select" name="teacher_id" id="">
-            <?php
-            $sql="SELECT * FROM teacher WHERE valid = 1";
-            $result=$conn->query($sql);
-             // 檢查查詢结果是否非空
-            if ($result->num_rows > 0) {
-              // 循環輸出所有教練選項
-              while ($row = $result->fetch_assoc()) {
-                echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
-              }}
-            ?>
+              <?php
+              $sql = "SELECT * FROM teacher WHERE valid = 1";
+              $result = $conn->query($sql);
+              // 檢查查詢结果是否非空
+              if ($result->num_rows > 0) {
+                // 循環輸出所有教練選項
+                while ($row = $result->fetch_assoc()) {
+                  echo "<option value='" . $row['id'] . "'>" . $row['name'] . "</option>";
+                }
+              }
+              ?>
             </select>
             <label for="">開課時間</label>
             <input type="datetime-local" class="form-control" name="course_start">
@@ -274,8 +276,8 @@ require_once("./db_connect.php")
             <textarea type="text" class="form-control" name="description" id="" cols="30" rows="10"></textarea>
             <label for="">請選擇宣傳照</label>
             <input type="file" class="form-control" name="photo" onchange="readURL(this)" targetID="preview_photo_img">
-            <div class="py-2 d-flex justify-content-between">
-              <a class="btn btn-primary" href="course_list.php" role="button">
+            <div class="py-2 d-flex justify-content-between mb-5">
+              <a class="btn btn-primary " href="course_list.php" role="button">
                 <i class="fa-solid fa-arrow-left"></i>返回課程列表
               </a>
               <button type="submit" class="btn btn-primary">

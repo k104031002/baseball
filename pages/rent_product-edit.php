@@ -79,7 +79,7 @@ $rowCount = $result->num_rows;
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -250,7 +250,7 @@ $rowCount = $result->num_rows;
                 <br>
               </div>
 
-              <div class="mb-2 col-12 col-lg-6">
+              <div class="mb-2 col-12 col-lg-6 ">
                 <div class="mb-3 ">
                   <label for="productName" class="form-label">目前商品名稱:</label>
                   <input type="text" class="form-control" id="productName" name="productName" value="<?= $row["name"] ?>" required>

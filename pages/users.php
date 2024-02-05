@@ -120,7 +120,7 @@ if (isset($_GET["search"])) {
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -349,27 +349,11 @@ if (isset($_GET["search"])) {
           <div class="pagination-container overflow-auto">
             <nav aria-label="Page navigation">
               <ul class="pagination justify-content-center mb-5">
-                <?php if ($p > 1) : ?>
-                  <li class="page-item">
-                    <a class="page-link" href="users.php?order=<?= $order ?>&p=<?= ($p - 1) ?>" aria-label="Previous">
-                      <span aria-hidden="true">&laquo; </span>
-                    </a>
-                  </li>
-                <?php endif; ?>
-
                 <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
                   <li class="page-item <?php if ($i == $p) echo "active" ?>">
                     <a class="page-link" href="users.php?order=<?= $order ?>&p=<?= $i ?>"><?= $i ?></a>
                   </li>
                 <?php endfor; ?>
-
-                <?php if ($p < $pageCount) : ?>
-                  <li class="page-item">
-                    <a class="page-link" href="users.php?order=<?= $order ?>&p=<?= ($p + 1) ?>" aria-label="Next">
-                      <span aria-hidden="true"> &raquo;</span>
-                    </a>
-                  </li>
-                <?php endif; ?>
               </ul>
             </nav>
 

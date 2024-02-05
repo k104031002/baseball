@@ -83,7 +83,7 @@ $rowCount = $result->num_rows;
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -324,7 +324,7 @@ $rowCount = $result->num_rows;
                 </tr>
                 <tr>
                   <th>配合教練</th>
-                  <td> 
+                  <td>
                     <select class="form-select" name="teacher_id" id="">
                       <?php
                       $sqlTeacher = "SELECT * FROM teacher WHERE valid = 1";

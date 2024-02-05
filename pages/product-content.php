@@ -79,7 +79,7 @@ $rowsCount = $result->num_rows;
                     </div>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <a class="text-white  nav-ader" href="#">
+                            <a class="text-white  nav-ader" href="./product_order.php">
                                 <span class="nav-link-text ms-1">訂單列表</span>
                             </a>
                         </div>
@@ -351,21 +351,19 @@ $rowsCount = $result->num_rows;
                                     </td>
                                 </tr>
                                 <tr>
-
-
-
+                                    <th class="add-table-secondary">最後更新時間 : </th>
+                                    <td>
+                                        <div>&nbsp;<?= $row["created_at"] ?></div>
+                                    </td>
+                                </tr>
+                                <tr>
 
                                     <input type="hidden" name="productImage" type="file" class="form-control-bs5" id="inputGroupFile01" value="<?= $row["image_url"] ?>">
-
 
                                 </tr>
 
                             </table>
-                            <div>
-                                <button type="submit" class="btn btn-primary">
-                                    送出
-                                </button>
-                            </div>
+
                         </form>
                     </div>
                 <?php endif; ?>

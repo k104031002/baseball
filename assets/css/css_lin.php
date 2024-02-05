@@ -69,6 +69,8 @@
     .Raleway {
         font-family: "Raleway", "Courier New", Courier, monospace, sans-serif;
     }
-    
+    .childCheckbox2{
+        display: none;
+    }
     
 </style>

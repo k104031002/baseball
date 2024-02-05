@@ -46,7 +46,7 @@ if (move_uploaded_file($_FILES["productImage"]["tmp_name"], "../assets/img/produ
         echo '<script>';
         echo 'setTimeout(function() {';
         echo '    window.location.href = "product-list.php";';
-        echo '}, 2000);';
+        echo '}, 1000);';
         echo '</script>';
     } else {
         echo "新增資料錯誤: " . $conn->error;

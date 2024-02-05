@@ -70,7 +70,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
                     </div>
                     <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
-                            <a class="text-white  nav-ader" href="#">
+                            <a class="text-white  nav-ader" href="./product_order.php">
                                 <span class="nav-link-text ms-1">訂單列表</span>
                             </a>
                         </div>
@@ -285,7 +285,7 @@ $rows = $result->fetch_all(MYSQLI_ASSOC);
 
                                     <div class="row">
                                         <div class="col">
-                                            <select name="productColor[]" id="setColor" class="form-select-bs5" aria-label="Default select example" multiple>
+                                            <select name="productColor[]" id="setColor" class="form-select-bs5" aria-label="Default select example" required multiple>
                                                 <option selected>請選擇顏色</option>
 
                                             </select>

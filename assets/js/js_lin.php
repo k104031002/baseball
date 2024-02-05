@@ -8,29 +8,27 @@
 
 <!-- 預覽圖片 -->
 <script>
+    function readURL(input) {
 
-function readURL(input){
+        if (input.files && input.files[0]) {
 
-  if(input.files && input.files[0]){
+            var imageTagID = input.getAttribute("targetID");
 
-    var imageTagID = input.getAttribute("targetID");
+            var reader = new FileReader();
 
-    var reader = new FileReader();
+            reader.onload = function(e) {
 
-    reader.onload = function (e) {
+                var img = document.getElementById(imageTagID);
 
-       var img = document.getElementById(imageTagID);
+                img.setAttribute("src", e.target.result)
 
-       img.setAttribute("src", e.target.result)
+            }
+
+            reader.readAsDataURL(input.files[0]);
+
+        }
 
     }
-
-    reader.readAsDataURL(input.files[0]);
-
-  }
-
-}
-
 </script>
 
 <!-- ckeditor編輯器 -->
@@ -41,9 +39,32 @@ function readURL(input){
 
 <!--  -->
 <script>
-        var selectory = $('#select1').select2({
-            width: "100%",
-            allowClear: true,
-            maximumSelectionLength: 4,
+    var selectory = $('#select1').select2({
+        width: "100%",
+        allowClear: true,
+        maximumSelectionLength: 4,
+    });
+</script>
+
+<!-- 上下複選框同步變化 -->
+<script>
+    // 獲取上層複選框和下層複選框的元素
+    const masterCheckboxes = document.querySelectorAll('.masterCheckbox');
+    const childCheckboxes = document.querySelectorAll('.childCheckbox');
+
+    // 監聽上層複選框的變化
+    masterCheckboxes.forEach(function(masterCheckbox, index) {
+        masterCheckbox.addEventListener('change', function() {
+            // 將上層複選框的狀態應用到對應的下層複選框
+            childCheckboxes[index].checked = masterCheckbox.checked;
         });
+    });
+
+    // 監聽下層複選框的變化
+    childCheckboxes.forEach(function(childCheckbox, index) {
+        childCheckbox.addEventListener('change', function() {
+            // 如果下層複選框被選中，將對應的上層複選框也設為被選中；否則取消選中
+            masterCheckboxes[index].checked = childCheckbox.checked;
+        });
+    });
 </script>

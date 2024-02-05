@@ -205,7 +205,7 @@
 }
 
 .table-img-min {
-    min-width: 95px;
+    min-width: 90px;
 }
 
 .btn-sm-edit {
@@ -260,7 +260,7 @@
 
 .add-table-img {
     min-width: 50px;
-    max-width: 200px;
+    max-width: 300px;
     position: relative;
 }
 

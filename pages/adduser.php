@@ -66,7 +66,7 @@
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -230,6 +230,10 @@
 
 
 
+            <div class="mb-3">
+              <label for="form-label">大頭貼</label>
+              <input type="file" class="form-control" name="photo">
+            </div>
             <div class="mb-3">
               <label for="form-label">名字</label>
               <input type="text" class="form-control" name="name">

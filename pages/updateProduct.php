@@ -62,7 +62,7 @@ if ($conn->query($sql)) {
     echo '<script>';
     echo 'setTimeout(function() {';
     echo '    window.location.href = "product-list.php";';
-    echo '}, 2000);';
+    echo '}, 1000);';
     echo '</script>';
 } else {
     echo "更新資料錯誤: " . $conn->error;

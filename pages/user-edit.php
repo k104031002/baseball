@@ -86,7 +86,7 @@ $rowCount = $result->num_rows;
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -255,7 +255,7 @@ $rowCount = $result->num_rows;
               <th>會員大頭貼</th>
               <td>
                 <input type="hidden" name="photo" value="<?= $row["photo"] ?>">
-                <img src="./asscts/img/account_img/<?= $row["photo"] ?>" alt="">
+                <img src="../assets/img/account_img/<?= $row["photo"] ?>" alt="">
                 <input type="file" class="form-control" name="photo">
               </td>
             </tr>

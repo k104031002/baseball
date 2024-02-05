@@ -90,7 +90,7 @@ $rowCount = $result->num_rows;
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -252,40 +252,73 @@ $rowCount = $result->num_rows;
         <div class="mb-2">
           <label for="class">選取文章類別</label>
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="打擊" id="flexCheckDefault" name="type[]">
+            <input class="form-check-input masterCheckbox" type="checkbox" value="打擊" id="flexCheckDefault6" name="type[]">
 
 
             <label class="form-check-label" for="flexCheckDefault">
               打擊
             </label>
-            <input class="form-check-input" type="checkbox" value="投球" id="flexCheckDefault" name="type[]">
+            <input class="form-check-input masterCheckbox" type="checkbox" value="投球" id="flexCheckDefault7" name="type[]">
 
             <label class="form-check-label" for="flexCheckDefault">
               投球
             </label>
-            <input class="form-check-input" type="checkbox" value="守備" id="flexCheckDefault" name="type[]">
+            <input class="form-check-input masterCheckbox" type="checkbox" value="守備" id="flexCheckDefault8" name="type[]">
 
             <label class="form-check-label" for="flexCheckDefault">
               守備
             </label>
-            <input class="form-check-input" type="checkbox" value="體能" id="flexCheckDefault" name="type[]">
+            <input class="form-check-input masterCheckbox" type="checkbox" value="體能" id="flexCheckDefault9" name="type[]">
 
             <label class="form-check-label" for="flexCheckDefault">
               體能
             </label>
-            <input class="form-check-input" type="checkbox" value="知識" id="flexCheckDefault" name="type[]">
+            <input class="form-check-input masterCheckbox" type="checkbox" value="知識" id="flexCheckDefault10" name="type[]">
 
             <label class="form-check-label" for="flexCheckDefault">
               知識
             </label>
-            <select class="form-select" name="type_id[]" id="" multiple="multiple">
-              <!-- <option value="">請選擇類型</option> -->
+
+          </div>
+
+
+          <!-- 改type_id-->
+          <div class="form-check childCheckbox2">
+            <input class="form-check-input childCheckbox" type="checkbox" value="1" id="flexCheckDefault1" name="type_id[]">
+
+            <label class="form-check-label" for="flexCheckDefault">
+              打擊
+            </label>
+            <input class="form-check-input childCheckbox" type="checkbox" value="2" id="flexCheckDefault2" name="type_id[]">
+
+            <label class="form-check-label" for="flexCheckDefault">
+              投球
+            </label>
+            <input class="form-check-input childCheckbox" type="checkbox" value="3" id="flexCheckDefault3" name="type_id[]">
+
+            <label class="form-check-label" for="flexCheckDefault">
+              守備
+            </label>
+            <input class="form-check-input childCheckbox" type="checkbox" value="4" id="flexCheckDefault4" name="type_id[]">
+
+            <label class="form-check-label" for="flexCheckDefault">
+              體能
+            </label>
+            <input class="form-check-input childCheckbox" type="checkbox" value="5" id="flexCheckDefault5" name="type_id[]">
+
+            <label class="form-check-label" for="flexCheckDefault">
+              知識
+            </label>
+
+
+            <!-- <select class="form-select" name="type_id[]" id="" multiple="multiple">
+              <option value="">請選擇類型</option>
               <option value="1">打擊</option>
               <option value="2">投球</option>
               <option value="3">守備</option>
               <option value="4">體能</option>
               <option value="5">知識</option>
-            </select>
+            </select> -->
           </div>
 
           <div class="mb-2">

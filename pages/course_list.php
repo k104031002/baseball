@@ -8,6 +8,10 @@ $sqlAll = "SELECT * FROM course WHERE valid=1";
 $resultAll = $conn->query($sqlAll);
 $courseTotalCount = $resultAll->num_rows;
 
+$sqlType="SELECT * FROM type ";
+$resultType=$conn->query($sqlType);
+$rowsType=$resultType->fetch_all(MYSQLI_ASSOC);
+
 $pageCount = ceil($courseTotalCount / $perPage); // ceil 無條件進位
 
 $orderString = ""; // 初始化排序条件
@@ -27,11 +31,17 @@ if (isset($_GET["order"])) {
     $orderString = "ORDER BY course_start DESC";
   }
 }
+
 // 构建搜索条件
 if (isset($_GET["search"])) {
   $search = $_GET["search"];
   // $searchString="AND name LIKE '%$search%'";
   $searchString = "AND course.name LIKE '%$search%'";
+ 
+}elseif(isset($_GET["cate"])){
+  $cate =$_GET["cate"];
+  $searchString ="AND course.type_id='$cate' AND course.valid=1
+ ";
 }
 
 // 构建查询语句
@@ -41,22 +51,43 @@ if (isset($_GET["p"])) {
   $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
             JOIN teacher ON course.teacher_id = teacher.id  
-            WHERE course.valid = 1 $searchString 
+            -- JOIN type ON course.type_id =type.id  
+            WHERE course.valid = 1  $searchString 
             $orderString 
             LIMIT $startIndex, $perPage";
   // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT  $startIndex, $perPage";
-} else {
+
+}else {
   $p = 1;
   $order = 1;
   $orderString = "ORDER BY id ASC";
   $sql = "SELECT course.*, teacher.name AS teacher_name 
             FROM course 
-            JOIN teacher ON course.teacher_id = teacher.id  
+            JOIN teacher ON course.teacher_id = teacher.id
+            -- JOIN type ON course.type_id =type.id  
             WHERE course.valid = 1 $searchString 
             $orderString 
             LIMIT $perPage";
   // $sql = "SELECT * FROM course WHERE valid=1 $searchString $orderString LIMIT $perPage";
 }
+
+// if(isset($_GET["cate"])){
+//   $cate= $_GET["cate"];
+//   $sql = "SELECT course.*, teacher.name AS teacher_name 
+//           FROM course 
+//           JOIN teacher ON course.teacher_id = teacher.id  
+//           JOIN type ON course.type_id = type.id 
+//           WHERE course.type_id = '$cate' AND course.valid = 1 
+//           $orderString ";
+//   } else {
+//     // 如果没有传递 cate 参数，则使用原始的查询语句
+//     $sql = "SELECT course.*, teacher.name AS teacher_name 
+//             FROM course 
+//             JOIN teacher ON course.teacher_id = teacher.id  
+//             WHERE course.valid = 1 
+//             $orderString ";
+//   }
+
 
 // $selectTeacher=isset($_POST["teacher_id"]) ? $_POST["teacher_id"] :[];
 // 將類型陣列轉換為字串，以便存儲到資料庫中
@@ -106,20 +137,14 @@ if (isset($_GET["search"])) {
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <?php include("../assets/css/ws_css.php") ?>
   <link href="../assets/css/ader.css" rel="stylesheet" />
-  <style>
-    @media(min-width:1400px) {
-      .container {
-        max-width: 1460px;
-      }
-    }
-  </style>
+  <?php include("../assets/css/ws_css.php") ?>
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-    <div class="sidenav-header">
+  <div class="sidenav-header">
       <!-- logo 回首頁連結 -->
       <img src=" ../assets/img/logo(5-3).png" class="navbar-brand-img h-100" alt="main_logo" usemap="#workmap">
       <map name="workmap">
@@ -156,7 +181,7 @@ if (isset($_GET["search"])) {
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -310,12 +335,12 @@ if (isset($_GET["search"])) {
     </nav>
     <div class="container">
       <!-- CODE貼這裡~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-      <h2 class="text-center">課程列表</h2>
+      <h1>課程列表</h1>
       <div class="py-2">
         <div class="row g-3">
           <?php if (isset($_GET["search"])) : ?>
             <div class="col-auto">
-              <a href="course_list.php" class="btn btn-primary searchback" name="" id="" role="button">
+              <a href="course_list.php" class="btn btn-primary" name="" id="" role="button">
                 <i class="fa-solid fa-angle-left fa-fw"></i>
               </a>
             </div>
@@ -341,7 +366,20 @@ if (isset($_GET["search"])) {
           <a class="btn btn-primary" href="addCourse.php"><i class="fa-solid fa-calendar-plus"></i></a>
         </div>
       </div>
-      <?php if (!isset($_GET["search"])) : ?>
+      <div class="d-flex justify-content-between">
+      <div class="d-flex py-2 justify-content-start align-items-center">
+      <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link <?php if (!isset($_GET["cate"])) echo "active"; ?>" aria-current="page" href="course_list.php">全部</a>
+                </li>
+                <?php foreach ($rowsType as $type) : ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?php if (isset($_GET["cate"]) && $_GET["cate"] == $type["id"]) echo "active"; ?>" aria-current="page" href="course_list.php?cate=<?=$type["id"] ?>"><?= $type["name"] ?></a>
+                    </li>
+                <?php endforeach; ?>
+              </ul>
+        </div>
+      <?php if (!isset($_GET["search"])&& !isset($_GET["cate"])) : ?>
         <div class="py-2 justify-content-end d-flex align-items-center">
           <div class="btn-group ">
             <a <?php if ($order == 1) echo "active" ?> class="btn btn-primary" href="course_list.php?order=1&p=<?= $p ?>"><i class="fa-solid fa-arrow-down-1-9"></i></a>
@@ -351,10 +389,11 @@ if (isset($_GET["search"])) {
           </div>
         </div>
       <?php endif; ?>
+      </div>
       <?php
       if ($courseCount > 0) :
       ?>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped mb-3">
           <thead>
             <tr class="text-center">
               <th>詳細資訊</th>
@@ -385,7 +424,7 @@ if (isset($_GET["search"])) {
                 <td><?= $course["name"] ?></td>
                 <td><?= $course["type"] ?></td>
                 <td><?= $course["price"] ?></td>
-                <td><a  class="text-info" href="teacher.php?id=<?=$course["teacher_id"]?>"><?= $course["teacher_name"] ?></a></td>
+                <td><a class="text-info" href="teacher.php?id=<?= $course["teacher_id"] ?>"><?= $course["teacher_name"] ?></a></td>
                 <td><?= $course["course_start"] ?></td>
                 <td><?= $course["course_end"] ?></td>
               </tr>
@@ -411,16 +450,16 @@ if (isset($_GET["search"])) {
             <?php endforeach; ?>
           </tbody>
         </table>
-        <?php if (!isset($_GET["search"])) : ?>
+        <?php if (!isset($_GET["search"]) &&!isset($_GET["cate"])) : ?>
           <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center mb-5">
-              <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
-                <li class="page-item <?php if ($i == $p) echo "active" ?>">
-                  <a class="page-link" href="course_list.php?order=<?= $order ?>&p=<?= $i ?>">
-                    <?= $i ?>
-                  </a>
-                </li>
-              <?php endfor; ?>
+                  <?php for ($i = 1; $i <= $pageCount; $i++) : ?>
+                    <li class="page-item <?php if ($i == $p) echo "active" ?>">
+                      <a class="page-link" href="course_list.php?order=<?= $order ?>&p=<?= $i ?>">
+                        <?= $i ?></a>
+                    </li>
+                  <?php endfor; ?>
+                  
             </ul>
           </nav>
         <?php endif; ?>

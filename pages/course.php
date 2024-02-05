@@ -90,7 +90,7 @@ if ($rowCount != 0) {
           </div>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
-              <a class="text-white  nav-ader" href="#">
+              <a class="text-white  nav-ader" href="./product_order.php">
                 <span class="nav-link-text ms-1">訂單列表</span>
               </a>
             </div>
@@ -265,7 +265,7 @@ if ($rowCount != 0) {
             </div>
             <div>
               <h2>配合教練</h2>
-              <a class="text-info" href="teacher.php?id=<?=$row["teacher_id"]?>"><?= $row["teacher_name"] ?></a>
+              <a class="text-info" href="teacher.php?id=<?= $row["teacher_id"] ?>"><?= $row["teacher_name"] ?></a>
             </div>
             <div>
               <h2>開課時間</h2><?= $row["course_start"] ?><br>~<br><?= $row["course_end"] ?>
@@ -284,7 +284,7 @@ if ($rowCount != 0) {
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">刪除教練</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">刪除課程</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
